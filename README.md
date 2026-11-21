@@ -58,7 +58,7 @@
 * **Переключаемые секции:** интерфейс не перегружается - 5 блоков (*Основное и Везение* с гистограммой 1d100, *УУ и Модификаторы*, *Криты/Магия/Удача*, *По проверкам*, *История бросков*) включаются и скрываются в один клик.
 * **Восстановление из чата:** через Меню отладки можно пересчитать и догрузить статистику по всей старой истории чата.
 
-<details>
+<details align="center">
 <summary>📷 Скриншоты</summary>
 
 ![Статистика бросков - обзор и УУ](https://github.com/user-attachments/assets/067c5889-d4ef-488e-b207-4f52aa1eb6d3)
@@ -78,7 +78,7 @@
 * Поддерживает **откат изменений** одной кнопкой (восстановление удалённых предметов/актёров, возврат старых значений, удаление ошибочно созданного).
 * Максимальное количество хранимых записей настраивается в Меню отладки (по умолчанию `50`).
 
-<details>
+<details align="center">
 <summary>📷 Скриншоты</summary>
 
 ![Журнал изменений](https://github.com/user-attachments/assets/e3782067-cbd6-4180-9fae-4f77fe48ead8)
@@ -93,7 +93,7 @@
 #### ⭐ Сводка по Амбициям *(только для Мастера)*
 Единое окно для контроля краткосрочных и долгосрочных амбиций партии и каждого персонажа: быстрая отметка достижения и синхронизация командных амбиций.
 
-<details>
+<details align="center">
 <summary>📷 Скриншоты</summary>
 
 ![Сводка по Амбициям](https://github.com/user-attachments/assets/7df88173-617f-4469-b158-52415b79546e)
@@ -122,10 +122,13 @@
 * **Название книги** - генератор названий книг в стилистике сеттинга (по типам или случайно).
 * **Придумать ругательство** - генератор фэнтезийных оскорблений.
 
-![Окно Макросов](https://github.com/user-attachments/assets/c4e2549c-e6f7-4c64-b1e0-e2c2a7b09386)
+<div align="center">
 
-![Пример работы макроса](https://github.com/user-attachments/assets/9563a49a-ec87-452c-a684-f11c081272f4)
+  ![Окно Макросов](https://github.com/user-attachments/assets/c4e2549c-e6f7-4c64-b1e0-e2c2a7b09386)
+  
+  ![Пример работы макроса](https://github.com/user-attachments/assets/9563a49a-ec87-452c-a684-f11c081272f4)
 
+</div>
 </details>
 
 ---
@@ -170,7 +173,7 @@
 * **Перевод актёров при импорте (Babele):** при импорте актёра из Библиотеки предлагает перевести его данные.
 * **Системные правки:** добавлены описания/локализация доп. школ магии (*Великая Пасть*, *Малый/Большой Вааагх!*), изменение стандартных HTML шаблонов, добавляющее описание многим кнопкам.
 
-<details>
+<details align="center">
 <summary>📷 Скриншоты</summary>
 
 ![Уход в защиту](https://github.com/user-attachments/assets/937776fb-24aa-4e6f-ac18-513fbae36c0d)
@@ -190,7 +193,7 @@
 * **Навыки для «Ухода в защиту»** - *Боевые (Уклонение и Рукопашный бой)* / *Все навыки* / *Свои* (ПКМ по списку для редактирования).
 * **Звуковые эффекты** - включение звуков, множитель громкости, «Смешной» режим и путь к папке со звуками.
 
-<details>
+<details align="center">
 <summary>📷 Скриншоты</summary>
   
 ![Меню отладки](https://github.com/user-attachments/assets/14f178f0-e264-4565-a2a7-437853c509d9)
@@ -248,7 +251,7 @@ Roll analytics built specifically for **WFRP 4e** mathematics.
 * **Toggleable Sections:** keeps the interface clean - 5 blocks (*Overview & Luck* with a 1d100 histogram, *SL & Modifiers*, *Crits, Magic & Fortune*, *By Test*, *Roll History*) can be toggled on and off in a single click.
 * **Rebuild from Chat:** recalculate and import statistics from the entire existing chat history via the Debug Menu.
 
-<details>
+<details align="center">
 <summary>📷 Screenshots</summary>
 
 ![Roll Statistics - Overview & SL](https://github.com/user-attachments/assets/067c5889-d4ef-488e-b207-4f52aa1eb6d3)
@@ -268,7 +271,7 @@ Tracks player changes to actor sheets and their items in real time.
 * Supports one-click **Undo** (restoring deleted items/actors, reverting old values, or deleting mistakenly created entries).
 * The maximum number of stored entries is configurable in the Debug Menu (default `50`).
 
-<details>
+<details align="center">
 <summary>📷 Screenshots</summary>
 
 ![Changelog](https://github.com/user-attachments/assets/e3782067-cbd6-4180-9fae-4f77fe48ead8)
@@ -283,7 +286,7 @@ Tracks player changes to actor sheets and their items in real time.
 #### ⭐ Ambitions Summary *(GM Only)*
 A single window for managing Short Term and Long Term ambitions for both the party and individual characters: quick achievement marking and party ambition synchronization.
 
-<details>
+<details align="center">
 <summary>📷 Screenshots</summary>
 
 ![Ambitions Summary](https://github.com/user-attachments/assets/7df88173-617f-4469-b158-52415b79546e)
@@ -312,10 +315,13 @@ Brings together built-in generators and utilities (as well as macros from compat
 * **Book Title** - generates setting-appropriate book titles (by type or at random).
 * **Invent an Insult** - fantasy insult generator.
 
-![Macros Window](https://github.com/user-attachments/assets/c4e2549c-e6f7-4c64-b1e0-e2c2a7b09386)
+<div align="center">
 
-![Macro Example](https://github.com/user-attachments/assets/9563a49a-ec87-452c-a684-f11c081272f4)
+  ![Macros Window](https://github.com/user-attachments/assets/c4e2549c-e6f7-4c64-b1e0-e2c2a7b09386)
+  
+  ![Macro Example](https://github.com/user-attachments/assets/9563a49a-ec87-452c-a684-f11c081272f4)
 
+</div>
 </details>
 
 ---
@@ -360,7 +366,7 @@ Supported formats: `.ogg`, `.mp3`, `.wav`, `.webm`, `.flac`, `.m4a`.
 * **Translate Actors on Import (Babele):** prompts to translate actor data when importing an actor from a Compendium.
 * **System Tweaks:** added descriptions/localization for additional Magic Lores (*The Great Maw*, *Little/Big Waaagh!*), and updated standard HTML templates to add tooltips/descriptions to many buttons.
 
-<details>
+<details align="center">
 <summary>📷 Screenshots</summary>
 
 ![Defending](https://github.com/user-attachments/assets/937776fb-24aa-4e6f-ac18-513fbae36c0d)
@@ -380,7 +386,7 @@ Supported formats: `.ogg`, `.mp3`, `.wav`, `.webm`, `.flac`, `.m4a`.
 * **Skills for "Defending"** - *Combat (Dodge and Melee)* / *All skills* / *Custom* (right-click the selector to edit).
 * **Sound Effects** - enable/disable toggle, volume multiplier, "Funny" mode, and path to the sounds folder.
 
-<details>
+<details align="center">
 <summary>📷 Screenshots</summary>
   
 ![Debug Menu](https://github.com/user-attachments/assets/14f178f0-e264-4565-a2a7-437853c509d9)
