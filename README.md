@@ -209,3 +209,193 @@
 
 \* Эти модули не работают без **WFRP4e - Tools**.  
 \*\* Эти модули ещё не адаптированы под **WFRP4e - Tools**, и их работоспособность не подтверждена.
+
+---
+
+<a id="-english"></a>
+
+**WFRP4e - Tools** is a core toolkit, quality-of-life, and bugfix module for **Warhammer Fantasy Roleplay 4th Edition** on Foundry VTT. It brings together roll analytics, a changelog, a macro manager, a context-sensitive audio system with automatic volume normalization, gameplay mechanic improvements, and a shared platform for integrating companion modules.
+
+### 📋 Contents
+- [Additional Tools Panel](#en-tools)
+  - [Roll Statistics](#en-roll-stats)
+  - [Changelog](#en-audit-logs)
+  - [Ambitions Summary](#en-ambitions)
+  - [Macro Manager](#en-macros)
+- [Audio System](#en-audio)
+- [System Fixes & Improvements](#en-fixes)
+- [Settings & Debug Menu](#en-settings)
+- [Supported Modules](#en-modules)
+
+---
+
+<a id="en-tools"></a>
+### 🤝 Additional Tools Panel
+
+The module adds a separate **Additional Tools** tab to the left scene controls bar, providing quick access to its main applications.
+
+![Additional Tools Panel](https://github.com/user-attachments/assets/ea645d72-d6c9-4410-9fb3-3563a98f4d91)
+
+---
+
+<a id="en-roll-stats"></a>
+#### 📊 Roll Statistics
+Roll analytics built specifically for **WFRP 4e** mathematics.
+
+* **Permissions:** The GM sees an *All Players* summary tab and individual tabs for each user; players see only their own statistics.
+* **Full WFRP 4e Mechanics:** target number, total and base SL, SL bonuses from talents and Advantage, difficulty modifiers, dice reversals, misfires, miscasts (Minor / Major / Catastrophic), Wrath of the Gods, rerolls, Fortune usage (+1 SL and reroll), and Dark Deals.
+* **Flexible Filters:** filter by period (*All Time / Today / Last 7 Days / Last 30 Days / Custom Date Range*) and test category (*Combat / Skills & Characteristics / Magic & Prayers* or a specific test type).
+* **Toggleable Sections:** keeps the interface clean - 5 blocks (*Overview & Luck* with a 1d100 histogram, *SL & Modifiers*, *Crits, Magic & Fortune*, *By Test*, *Roll History*) can be toggled on and off in a single click.
+* **Rebuild from Chat:** recalculate and import statistics from the entire existing chat history via the Debug Menu.
+
+<details>
+<summary>📷 Screenshots</summary>
+
+![Roll Statistics - Overview & SL](https://github.com/user-attachments/assets/067c5889-d4ef-488e-b207-4f52aa1eb6d3)
+
+![Roll Statistics - Breakdown & Events](https://github.com/user-attachments/assets/ec70d7e9-38a7-4683-abf6-5024bbef5863)
+
+</details>
+
+---
+
+<a id="en-audit-logs"></a>
+#### :arrows_counterclockwise: Changelog *(GM Only)*
+Tracks player changes to actor sheets and their items in real time.
+
+* Logs **creation**, **updates**, and **deletion** of actors and items, grouping rapid consecutive edits into a single compact notification.
+* Clicking a notification immediately opens the relevant player's tab in the Changelog.
+* Supports one-click **Undo** (restoring deleted items/actors, reverting old values, or deleting mistakenly created entries).
+* The maximum number of stored entries is configurable in the Debug Menu (default `50`).
+
+<details>
+<summary>📷 Screenshots</summary>
+
+![Changelog](https://github.com/user-attachments/assets/e3782067-cbd6-4180-9fae-4f77fe48ead8)
+
+![Changelog Notification](https://github.com/user-attachments/assets/34cd46e3-cbfc-4233-8f09-0088cd0b8ed5)
+
+</details>
+
+---
+
+<a id="en-ambitions"></a>
+#### ⭐ Ambitions Summary *(GM Only)*
+A single window for managing Short Term and Long Term ambitions for both the party and individual characters: quick achievement marking and party ambition synchronization.
+
+<details>
+<summary>📷 Screenshots</summary>
+
+![Ambitions Summary](https://github.com/user-attachments/assets/7df88173-617f-4469-b158-52415b79546e)
+
+</details>
+
+---
+
+<a id="en-macros"></a>
+#### 💻 Macro Manager
+Brings together built-in generators and utilities (as well as macros from compatible modules) in a single window.
+* **LMB** - run the script immediately.
+* **Alt + LMB** - create a regular macro in the world.
+
+<details>
+<summary>📋 Built-in Macros & Screenshots</summary>
+
+**Create Items:**
+* **Enchanted Staff** - generates a staff with Magic Lore selection, quirks/curses, and effects.
+* **Magical Shield / Weapon / Armour** - generates items using official property, history, and armour size tables.
+* **Spell Scroll** - choose a Magic Lore and maximum Casting Number (CN).
+* **Grimoire** - generates lore, spell list, appearance, features, and a random title.
+
+**GM Helpers:**
+* **Command Control Panel** - convenient menu for system commands (`/credit`, `/pay`, `/exp`).
+* **Book Title** - generates setting-appropriate book titles (by type or at random).
+* **Invent an Insult** - fantasy insult generator.
+
+![Macros Window](https://github.com/user-attachments/assets/c4e2549c-e6f7-4c64-b1e0-e2c2a7b09386)
+
+![Macro Example](https://github.com/user-attachments/assets/9563a49a-ec87-452c-a684-f11c081272f4)
+
+</details>
+
+---
+
+<a id="en-audio"></a>
+### 🔊 Audio System
+
+The module includes a built-in context-aware sound effects engine (requires a sound pack such as [WFRP4e - Sounds](https://github.com/nPocToI4eJI/wfrp4e-sounds), or your own custom sounds folder):
+
+* **Automatic Volume Normalization:** on first playback, the module analyzes the file, automatically evens out quiet and overly loud sounds, and routes them through a protective limiter.
+* **Events:** skill and characteristic tests, combat strikes/shots/deflections/hits by armour type, dropping to 0 Wounds, creature trait attacks, channelling and spellcasting by Magic Lore, miscasts, prayers, and equipment interactions.
+* **"Funny" Mode:** when enabled, adds alternative files from `funny/` subfolders into the regular playback pool.
+* **Custom Path & Rebuild:** configure the sounds folder path in settings and update the sound catalog with a button in the Debug Menu.
+
+<details>
+<summary>📂 Sound Folder Structure</summary>
+
+Supported formats: `.ogg`, `.mp3`, `.wav`, `.webm`, `.flac`, `.m4a`.
+
+```text
+<path from soundsPath setting>/
+├── combat/   (and optional funny/) - combat events, damage, crits, dropping to 0 wounds
+├── weapon/   (and optional funny/) - swings, shots, weapon types, and creature traits
+├── opposed/  (and optional funny/) - opposed tests, parries, dodges, misses
+├── hit/      (and optional funny/) - hits by armour material (plate, mail, leather, flesh)
+├── magic/    (and optional funny/) - channelling, spell lores, miscasts
+├── prayer/   (and optional funny/) - blessings, miracles, Wrath of the Gods
+├── skill/    (and optional funny/) - skill and characteristic tests
+└── item/     (and optional funny/) - item and equipment interactions
+```
+
+</details>
+
+---
+
+<a id="en-fixes"></a>
+### 🔧 System Fixes & Improvements
+
+* **"Defending":** convenient skill selection dialog for the `+20` bonus, flexible skill filter (*Combat / All / Custom* with auto-selection when only one skill is specified), and optional automatic removal at the start of the actor's next turn.
+* **Wildcard Token Images Fix in Chat:** saves the actual token image on roll and properly renders chat cards after restarting Foundry or deleting the token from the scene (eliminates broken `*` wildcard links).
+* **New Notifications:** redesigned compact popup notification format (can be enabled for this module only or replace all standard Foundry notifications).
+* **Translate Actors on Import (Babele):** prompts to translate actor data when importing an actor from a Compendium.
+* **System Tweaks:** added descriptions/localization for additional Magic Lores (*The Great Maw*, *Little/Big Waaagh!*), and updated standard HTML templates to add tooltips/descriptions to many buttons.
+
+<details>
+<summary>📷 Screenshots</summary>
+
+![Defending](https://github.com/user-attachments/assets/937776fb-24aa-4e6f-ac18-513fbae36c0d)
+
+</details>
+
+---
+
+<a id="en-settings"></a>
+### ⚙️ Settings & Debug Menu
+
+**Main Module Settings:**
+* **Debug Menu** - toggle `debug` mode, configure the Changelog entry limit, rebuild the sound catalog, rebuild Roll Statistics from chat history.
+* **Use new notifications** - apply the new notification style across all of Foundry or only to this module.
+* **Translate actor data on import** - requires the `Babele` module.
+* **"Defending" removed before turn** - automatically removes the effect at the start of the actor's turn.
+* **Skills for "Defending"** - *Combat (Dodge and Melee)* / *All skills* / *Custom* (right-click the selector to edit).
+* **Sound Effects** - enable/disable toggle, volume multiplier, "Funny" mode, and path to the sounds folder.
+
+<details>
+<summary>📷 Screenshots</summary>
+  
+![Debug Menu](https://github.com/user-attachments/assets/14f178f0-e264-4565-a2a7-437853c509d9)
+
+</details>
+
+---
+
+<a id="en-modules"></a>
+### 🧩 Supported Modules
+List of modules with full compatibility:
+
+* **[WFRP4e - Assistant\*](https://github.com/nPocToI4eJI/wfrp4e-assistant)** - allows the GM to diversify NPCs and their roleplay using built-in automation tools.
+* **[WFRP4e - Looting\* \*\*](https://github.com/nPocToI4eJI/wfrp4e-looting)** - helps the GM streamline the process of creating unique loot.
+* **[WFRP4e - Sounds\* \*\*](https://github.com/nPocToI4eJI/wfrp4e-sounds)** - contains sound files tailored for the [Audio System](#en-audio).
+
+\* These modules do not work without **WFRP4e - Tools**.  
+\*\* These modules have not yet been adapted for **WFRP4e - Tools**, and their functionality is not confirmed.
