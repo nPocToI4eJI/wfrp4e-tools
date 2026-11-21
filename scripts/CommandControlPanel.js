@@ -56,7 +56,7 @@ export default async function() {
 				<input id="count" type="string" step="1" value="0">
 				<input id="reason" placeholder="${game.i18n.localize('Reason')}">
 			</div>
-			<p id="fortune">${game.i18n.format("WFRP4E.Tools.Macros.CommandControlPanel.Fortune", {img: `<img src="modules/wfrp4e-core/icons/currency/goldcrown.png" style="display: inline-block; height: 14px;" data-tooltip="${game.i18n.localize('NAME.GC')}">`})}</p>
+			<p id="fortune">${game.i18n.format("WFRP4E.Tools.Macros.CommandControlPanel.Fortune", {img: `<img src="modules/wfrp4e-core/icons/currency/goldcrown.png" style="display: inline-block; height: 1em; vertical-align: middle;" data-tooltip="${game.i18n.localize('NAME.GC')}">`})}</p>
 		</div>`,
 		buttons: [
 			{

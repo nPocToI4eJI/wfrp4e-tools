@@ -6,18 +6,23 @@
 
 
 
+.wfrp4eTools-debug {
+	max-width: 90vw;
+	max-height: 85vh;
+}
 .wfrp4eTools-debug section.window-content {
-	gap: 5px;
+	gap: 0.35rem;
+	overflow-y: auto;
 }
 .wfrp4eTools-debug section.window-content > div {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	gap: 3px;
-	padding: 2px;
+	gap: 0.25rem;
+	padding: 0.25rem;
 	border: 1px dashed var(--color-level-warning);
 	text-align: center;
-	border-radius: 5px;
+	border-radius: 0.3rem;
 }
 .wfrp4eTools-debug h5 {
 	text-align: center;
@@ -35,11 +40,11 @@
 #chat-notifications > .auditLogsNotifications > ol > li {
 	text-align: center;
 	font-size: var(--font-size-14);
-	border-radius: 15px;
+	border-radius: 0.9rem;
 	animation: fadeIn 0.4s ease forwards;
 	overflow: hidden;
 	overflow-y: auto;
-	max-height: 200px;
+	max-height: 22vh;
 	max-width: 100%;
 }
 #chat-notifications > .auditLogsNotifications > ol > li.red {
@@ -117,7 +122,7 @@
 @keyframes fadeIn {
 	0% {
 		opacity: 0;
-		transform: translateY(-10px);
+		transform: translateY(-0.625rem);
 	}
 	100% {
 		opacity: 1;
@@ -127,12 +132,12 @@
 @keyframes fadeOut {
 	0% {
 		opacity: 1;
-		max-height: 200px;
+		max-height: 22vh;
 		padding-top: inherit;
 	}
 	40% {
 		opacity: 0;
-		max-height: 200px;
+		max-height: 22vh;
 	}
 	100% {
 		opacity: 0;
@@ -141,7 +146,7 @@
 	}
 }
 #chat-notifications > .auditLogsNotifications > ol > li > p {
-	margin: 5px 0;
+	margin: 0.3rem 0;
 }
 #chat-notifications > .auditLogsNotifications > ol > li > hr {
 	margin: unset;
@@ -155,20 +160,22 @@
 
 
 
-.wfrp4eTools-auditLogs{
-	max-height: 1000px;
+.wfrp4eTools-auditLogs {
+	width: clamp(36rem, 65vw, 75rem);
+	max-width: 92vw;
+	max-height: 85vh;
 }
 .wfrp4eTools-auditLogs nav {
-	gap: 5px;
+	gap: 0.3rem;
 }
 .wfrp4eTools-auditLogs .window-content section {
-	max-height: calc(100% - 35px);
+	max-height: calc(100% - 2.5rem);
 	overflow-y: auto;
 }
 .wfrp4eTools-auditLogs .window-content table {
 	border-collapse: separate;
 	border: 1px var(--color-shadow-highlight) solid;
-	border-radius: 5px;
+	border-radius: 0.3rem;
 }
 .wfrp4eTools-auditLogs .window-content thead {
 	box-shadow: 0 1px 0 0 var(--color-shadow-primary);
@@ -194,8 +201,12 @@
 
 
 .wfrp4eTools-ambitionsSummary {
-	width: 1000px;
-	max-width: 75vw;
+	width: clamp(32rem, 60vw, 68rem);
+	max-width: 92vw;
+	max-height: 85vh;
+}
+.wfrp4eTools-ambitionsSummary .window-content {
+	overflow-y: auto;
 }
 .wfrp4eTools-ambitionsSummary h4,
 .wfrp4eTools-ambitionsSummary h5,
@@ -211,13 +222,20 @@
 
 
 
+.wfrp4eTools-macros {
+	max-width: 90vw;
+	max-height: 85vh;
+}
+.wfrp4eTools-macros .window-content {
+	overflow-y: auto;
+}
 .wfrp4eTools-macros .window-content > div > div {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 3px;
-	padding: 3px;
+	gap: 0.2rem;
+	padding: 0.2rem;
 	border: 2px dotted var(--content-link-border-color);
-	border-radius: 5px;
+	border-radius: 0.3rem;
 }
 .wfrp4eTools-macros .window-content > div > h3:not(:has(+ div > a)) {
 	display: none;
@@ -226,8 +244,8 @@
 	display: none;
 }
 .wfrp4eTools-macros .window-content > div > div > a {
-	min-width: calc(50% - 1.5px);
-	width: min-content;
+	flex: 1 1 calc(50% - 0.2rem);
+	min-width: min(12rem, 100%);
 }
 
 
@@ -235,14 +253,15 @@
 .wfrp4eTools .booksTitle {
 	display: flex;
 	gap: 1rem;
-	height: 4rem;
+	min-height: 4rem;
+	height: auto;
 	padding: 1rem;
 }
 .wfrp4eTools .booksTitle > input,
 .wfrp4eTools .booksTitle > select {
 	height: auto;
-	margin: 2px;
-	padding: 3px;
+	margin: 0.15rem;
+	padding: 0.2rem;
 	text-align: center;
 }
 .wfrp4eTools .booksTitle > input:hover,
@@ -252,7 +271,7 @@
 }
 .wfrp4eTools.booksTitleChat {
 	text-align: center;
-	font-size: 18px;
+	font-size: 1.125rem;
 	font-weight: bold;
 }
 
@@ -260,30 +279,30 @@
 
 .wfrp4eTools .commandControlPanel {
 	display: flex;
-	gap: 5px;
+	gap: 0.35rem;
 	flex-direction: column;
-	width: 600px;
+	width: min(38rem, 85vw);
 }
 .wfrp4eTools .commandControlPanel #settings {
 	display: flex;
-	gap: 5px;
+	gap: 0.35rem;
 	align-items: center;
 	flex-direction: column;
 }
 .wfrp4eTools .commandControlPanel .actors {
 	width: 100%;
 	display: flex;
-	gap: 5px;
+	gap: 0.35rem;
 	align-items: center;
 	flex-wrap: wrap;
 	justify-content: space-around;
 	border: 2px dotted var(--content-link-border-color);
-	border-radius: 5px;
-	padding: 5px;
+	border-radius: 0.3rem;
+	padding: 0.35rem;
 }
 .wfrp4eTools .commandControlPanel .actors > label {
-	padding: 3px 5px;
-	border-radius: 5px;
+	padding: 0.2rem 0.35rem;
+	border-radius: 0.3rem;
 	box-shadow: 0px 0px 7px 3px var(--border), 0px 0px 7px inset var(--color);
 	transition: box-shadow 0.5s, color 0.5s;
 	font-style: italic;
@@ -305,24 +324,29 @@
 	display: none;
 	justify-content: space-between;
 	align-items: center;
-	height: 25px;
+	min-height: var(--input-height, 2rem);
 }
 .wfrp4eTools .commandControlPanel div#money > div {
 	display: flex;
-	gap: 5px;
+	gap: 0.3rem;
+	align-items: center;
 	height: 100%;
 	justify-content: center;
 }
 .wfrp4eTools .commandControlPanel div#money > div > input {
-	width: 50px;
+	width: 3.5rem;
 	text-align: center;
+}
+.wfrp4eTools .commandControlPanel div#money > div > img {
+	height: var(--input-height, 1.75rem);
+	width: auto;
 }
 .wfrp4eTools .commandControlPanel div#exp {
 	display: none;
-	gap: 5px;
+	gap: 0.35rem;
 	justify-content: center;
 	align-items: center;
-	height: 25px;
+	min-height: var(--input-height, 2rem);
 }
 .wfrp4eTools .commandControlPanel div#exp > input:not(:first-child) {
 	height: 100%;
@@ -350,19 +374,19 @@
 
 
 .wfrp4eTools-rollStats {
-	width: 900px;
-	max-width: 85vw;
-	max-height: 90vh;
+	width: clamp(36rem, 65vw, 68rem);
+	max-width: 92vw;
+	max-height: 88vh;
 }
 .wfrp4eTools-rollStats nav {
-	gap: 5px;
+	gap: 0.3rem;
 }
 .wfrp4eTools-rollStats .window-content section.tab {
-	max-height: calc(100% - 35px);
+	max-height: calc(100% - 2.5rem);
 	overflow-y: auto;
 	display: none;
 	flex-direction: column;
-	gap: 8px;
+	gap: 0.5rem;
 }
 .wfrp4eTools-rollStats .window-content section.tab.active {
 	display: flex;
@@ -370,32 +394,32 @@
 .wfrp4eTools-rollStats .rollStats-toolbar {
 	display: flex;
 	flex-direction: column;
-	gap: 6px;
-	padding: 6px;
+	gap: 0.4rem;
+	padding: 0.4rem;
 	border: 1px solid var(--color-shadow-highlight);
-	border-radius: 5px;
+	border-radius: 0.3rem;
 }
 .wfrp4eTools-rollStats .rollStats-filters,
 .wfrp4eTools-rollStats .rollStats-toggles {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 5px;
+	gap: 0.3rem;
 	align-items: center;
 	justify-content: center;
 }
 .wfrp4eTools-rollStats .rollStats-filters select,
 .wfrp4eTools-rollStats .rollStats-filters input[type="date"] {
 	flex: 1;
-	min-width: 140px;
+	min-width: 9rem;
 	text-align: center;
 }
 .wfrp4eTools-rollStats .rollStats-toggles a.button {
 	flex: 1;
-	min-width: 135px;
-	padding: 4px 6px;
+	min-width: 8.5rem;
+	padding: 0.25rem 0.4rem;
 	opacity: 0.65;
 	border: 1px dotted var(--color-shadow-primary);
-	border-radius: 4px;
+	border-radius: 0.25rem;
 }
 .wfrp4eTools-rollStats .rollStats-toggles a.button.active {
 	opacity: 1;
@@ -406,15 +430,15 @@
 .wfrp4eTools-rollStats .rollStats-content {
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
+	gap: 0.5rem;
 }
 .wfrp4eTools-rollStats .rollStats-block {
 	display: flex;
 	flex-direction: column;
-	gap: 6px;
-	padding: 6px;
+	gap: 0.4rem;
+	padding: 0.4rem;
 	border: 1px dashed var(--color-shadow-primary);
-	border-radius: 5px;
+	border-radius: 0.3rem;
 }
 .wfrp4eTools-rollStats .rollStats-block h5 {
 	margin: 0;
@@ -422,25 +446,25 @@
 }
 .wfrp4eTools-rollStats .rollStats-cards {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
-	gap: 5px;
+	grid-template-columns: repeat(auto-fill, minmax(min(10rem, 100%), 1fr));
+	gap: 0.3rem;
 }
 .wfrp4eTools-rollStats .stat-card {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding: 5px;
+	padding: 0.35rem;
 	border: 1px solid var(--color-shadow-highlight);
-	border-radius: 5px;
+	border-radius: 0.3rem;
 	text-align: center;
 }
 .wfrp4eTools-rollStats .stat-label {
-	font-size: 12px;
+	font-size: 0.8rem;
 	opacity: 0.85;
 }
 .wfrp4eTools-rollStats .stat-value {
-	font-size: 15px;
+	font-size: 1rem;
 	font-weight: bold;
 }
 .wfrp4eTools-rollStats .stat-value.increase,
@@ -454,21 +478,21 @@
 .wfrp4eTools-rollStats .rollStats-histogram {
 	display: flex;
 	flex-direction: column;
-	gap: 4px;
-	padding: 6px;
+	gap: 0.25rem;
+	padding: 0.4rem;
 	border: 1px solid var(--color-shadow-highlight);
-	border-radius: 5px;
+	border-radius: 0.3rem;
 }
 .wfrp4eTools-rollStats .hist-title {
 	text-align: center;
-	font-size: 12px;
+	font-size: 0.8rem;
 	font-weight: bold;
 }
 .wfrp4eTools-rollStats .hist-bars {
 	display: grid;
 	grid-template-columns: repeat(10, 1fr);
-	gap: 4px;
-	height: 85px;
+	gap: 0.25rem;
+	height: 5.5rem;
 	align-items: end;
 }
 .wfrp4eTools-rollStats .hist-col {
@@ -480,7 +504,7 @@
 }
 .wfrp4eTools-rollStats .hist-bar-wrap {
 	width: 100%;
-	height: 55px;
+	height: 3.5rem;
 	display: flex;
 	align-items: flex-end;
 	justify-content: center;
@@ -492,17 +516,17 @@
 	min-height: 2px;
 }
 .wfrp4eTools-rollStats .hist-count {
-	font-size: 11px;
+	font-size: 0.75rem;
 	font-weight: bold;
 }
 .wfrp4eTools-rollStats .hist-label {
-	font-size: 10px;
+	font-size: 0.65rem;
 	opacity: 0.8;
 }
 .wfrp4eTools-rollStats table {
 	border-collapse: separate;
 	border: 1px var(--color-shadow-highlight) solid;
-	border-radius: 5px;
+	border-radius: 0.3rem;
 	text-align: center;
 }
 .wfrp4eTools-rollStats table thead {
@@ -512,7 +536,7 @@
 .wfrp4eTools-rollStats .rollStats-empty {
 	text-align: center;
 	font-style: italic;
-	padding: 20px;
+	padding: 1.25rem;
 }
 
 
@@ -520,7 +544,7 @@
 section[data-category="wfrp4e-tools"] label::before {
 	font-family: "Font Awesome 6 Pro";
     font-weight: bold;
-    margin-right: 5px;
+    margin-right: 0.3rem;
 }
 section[data-category="wfrp4e-tools"] label[for="settings-config-wfrp4e-tools.updateNotification"]::before {
     content: "\f0f3";
@@ -631,8 +655,12 @@ section[data-category="wfrp4e-tools"] label[for="settings-config-wfrp4e-tools.so
 
 
 
+.application.item-dialog {
+	max-width: 90vw;
+	max-height: 85vh;
+}
 .sheet-effect-buttons {
-	padding: 3px;
+	padding: 0.2rem;
 }
 .sheet-effect-buttons > button {
 	background: var(--content-link-background);
@@ -663,7 +691,7 @@ div.condition-section > div.condition {
 div.condition-section > div.condition > a {
 	display: flex;
 	align-items: center;
-	padding: 5px;
+	padding: 0.3rem;
 }
 div.condition-section > div.condition > div {
 	display: flex;
@@ -671,9 +699,9 @@ div.condition-section > div.condition > div {
 	justify-content: center;
 }
 section[data-tab="notes"] > div.editor-section > prose-mirror {
-	max-height: 150px;
+	max-height: min(12rem, 20vh);
 }
 body:not(.no-theme).theme-dark .application:not(.journal-entry, .actor, .item, .menu-dialog) nav.sheet-tabs > a {
-	border-radius: 15px;
-	margin-bottom: 5px;
+	border-radius: 0.9rem;
+	margin-bottom: 0.3rem;
 }
