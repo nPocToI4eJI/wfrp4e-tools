@@ -1,13 +1,222 @@
-# <p align="center">WFRP4e - Tools</p>
-<p align="center">
-  <a href="https://foundryvtt.com/packages/wfrp4e-tools" rel="nofollow"><img src="https://img.shields.io/badge/WFRP4e%20--%20Tools-FoundryVTT-orange?labelColor=darkred" alt="FoundryVTT"></a>
-  <a href="https://foundryvtt.com/" rel="nofollow"><img src="https://img.shields.io/badge/V13-Совместимо-darkgreen?labelColor=orange" alt="Совместимость"></a>
-  <a href="https://github.com/nPocToI4eJI/wfrp4e-tools/releases" rel="nofollow"><img src="https://img.shields.io/github/v/release/nPocToI4eJI/wfrp4e-tools?display_name=release&label=%D0%92%D0%B5%D1%80%D1%81%D0%B8%D1%8F&labelColor=darkgreen" alt="Последняя версия"></a>
-  <a href="https://github.com/nPocToI4eJI/wfrp4e-tools/releases/latest" rel="nofollow"><img src="https://img.shields.io/github/downloads/nPocToI4eJI/wfrp4e-tools/latest/wfrp4e-tools.zip?displayAssetName=false&label=%D0%A1%D0%BA%D0%B0%D1%87%D0%B8%D0%B2%D0%B0%D0%BD%D0%B8%D0%B9&labelColor=blue&color=darkgreen" alt="Скачивания"></a>
-  <a href="https://github.com/nPocToI4eJI/wfrp4e-tools/releases" rel="nofollow"><img src="https://img.shields.io/github/downloads/nPocToI4eJI/wfrp4e-tools/wfrp4e-tools.zip?displayAssetName=false&label=%D0%92%D1%81%D0%B5%D0%B3%D0%BE&labelColor=darkgreen&color=darkred" alt="Скачиваний всего"></a>
-</p>
-<p align="center">
-  <a href="https://discord.gg/tPrYvW7" rel="nofollow"><img src="https://img.shields.io/badge/Discord-black?logo=discord&logoColor=%235865F2" alt="Discord"></a>
-  <a href="https://www.youtube.com/@nPocTo_4eJI" rel="nofollow"><img src="https://img.shields.io/badge/Youtube-black?logo=youtube&logoColor=%23FF0000" alt="Youtube"></a>
-  <a href="https://boosty.to/npocto_4eji" rel="nofollow"><img src="https://img.shields.io/badge/Boosty-black?logo=boosty&logoColor=%23F15F2C" alt="Boosty"></a>
-</p>
+<div align="center">
+  
+  # WFRP4e - Tools
+
+  <p>
+    <a href="https://foundryvtt.com/packages/wfrp4e-tools" rel="nofollow"><img src="https://img.shields.io/badge/WFRP4e%20--%20Tools-FoundryVTT-orange?labelColor=darkred" alt="FoundryVTT"></a>
+    <a href="https://foundryvtt.com/" rel="nofollow"><img src="https://img.shields.io/badge/V13-Совместимо-darkgreen?labelColor=orange" alt="Совместимость"></a>
+    <a href="https://github.com/nPocToI4eJI/wfrp4e-tools/releases" rel="nofollow"><img src="https://img.shields.io/github/v/release/nPocToI4eJI/wfrp4e-tools?display_name=release&label=%D0%92%D0%B5%D1%80%D1%81%D0%B8%D1%8F&labelColor=darkgreen" alt="Последняя версия"></a>
+    <a href="https://github.com/nPocToI4eJI/wfrp4e-tools/releases/latest" rel="nofollow"><img src="https://img.shields.io/github/downloads/nPocToI4eJI/wfrp4e-tools/latest/wfrp4e-tools.zip?displayAssetName=false&label=%D0%A1%D0%BA%D0%B0%D1%87%D0%B8%D0%B2%D0%B0%D0%BD%D0%B8%D0%B9&labelColor=blue&color=darkgreen" alt="Скачивания"></a>
+    <a href="https://github.com/nPocToI4eJI/wfrp4e-tools/releases" rel="nofollow"><img src="https://img.shields.io/github/downloads/nPocToI4eJI/wfrp4e-tools/wfrp4e-tools.zip?displayAssetName=false&label=%D0%92%D1%81%D0%B5%D0%B3%D0%BE&labelColor=darkgreen&color=darkred" alt="Скачиваний всего"></a>
+  </p>
+
+  <p>
+    <a href="https://discord.gg/tPrYvW7" rel="nofollow"><img src="https://img.shields.io/badge/Discord-black?logo=discord&logoColor=%235865F2" alt="Discord"></a>
+    <a href="https://www.youtube.com/@nPocTo_4eJI" rel="nofollow"><img src="https://img.shields.io/badge/Youtube-black?logo=youtube&logoColor=%23FF0000" alt="Youtube"></a>
+    <a href="https://boosty.to/npocto_4eji" rel="nofollow"><img src="https://img.shields.io/badge/Boosty-black?logo=boosty&logoColor=%23F15F2C" alt="Boosty"></a>
+  </p>
+  
+  **[🇷🇺 Русский](#-русский) | [🇬🇧 English](#-english)**
+
+</div>
+
+---
+
+<a id="-русский"></a>
+
+**WFRP4e - Tools** — базовый модуль инструментов, улучшений и исправлений для системы **Warhammer Fantasy Roleplay 4th Edition** в Foundry VTT. Он объединяет аналитику бросков, журнал изменений, менеджер макросов, контекстную звуковую систему с авто-нормализацией громкости, доработку игровых механик и общую платформу для интеграции сопутствующих модулей.
+
+### 📑 Содержание
+- [Панель инструментов](#ru-tools)
+  - [Статистика бросков](#ru-roll-stats)
+  - [Журнал изменений](#ru-audit-logs)
+  - [Сводка по Амбициям](#ru-ambitions)
+  - [Менеджер макросов](#ru-macros)
+- [Звуковая система](#ru-audio)
+- [Исправления и улучшения системы](#ru-fixes)
+- [Настройки и Меню отладки](#ru-settings)
+
+---
+
+<a id="ru-tools"></a>
+### 🛠️ Панель инструментов
+
+Модуль добавляет на левую панель управления отдельную вкладку **«Дополнительные инструменты»**, из которой открываются основные приложения.
+
+![Панель дополнительных инструментов](https://github.com/user-attachments/assets/ea645d72-d6c9-4410-9fb3-3563a98f4d91)
+
+---
+
+<a id="ru-roll-stats"></a>
+#### 📊 Статистика бросков
+Аналитика бросков, созданная специально под математику **WFRP 4e**.
+
+* **Права доступа:** Мастер видит общую вкладку *«Все игроки»* и вкладки каждого пользователя; игроки видят только свою статистику.
+* **Учёт механик WFRP 4e:** порог проверки, итоговый и базовый УУ, бонусы к УУ от талантов и Преимущества, модификаторы сложности, перевороты кубов, осечки, магическая отдача (малая / серьёзная / катастрофическая), Гнев Богов, перебросы, трата Удачи (+1 УУ и переброс) и Тёмные сделки.
+* **Гибкие фильтры:** выбор периода (*За всё время / Сегодня / 7 дней / 30 дней / Произвольный диапазон дат*) и категории проверки (*Бой / Навыки и Характеристики / Магия и Молитвы* или конкретный тип теста).
+* **Переключаемые секции:** интерфейс не перегружается — 5 блоков (*Основное и Везение* с гистограммой 1d100, *УУ и Модификаторы*, *Криты/Магия/Удача*, *По проверкам*, *История бросков*) включаются и скрываются в один клик.
+* **Восстановление из чата:** через Меню отладки можно пересчитать и догрузить статистику по всей старой истории чата.
+
+<details>
+<summary>📷 Скриншоты</summary>
+
+![Статистика бросков — обзор и УУ](https://github.com/user-attachments/assets/067c5889-d4ef-488e-b207-4f52aa1eb6d3)
+
+![Статистика бросков — таблицы и события](https://github.com/user-attachments/assets/ec70d7e9-38a7-4683-abf6-5024bbef5863)
+
+</details>
+
+---
+
+<a id="ru-audit-logs"></a>
+#### 📜 Журнал изменений *(только для Мастера)*
+Отслеживает изменения листов актёров и их предметов игроками в реальном времени.
+
+* Фиксирует **создание**, **обновление** и **удаление** актёров и предметов, группируя быстрые правки в одно компактное уведомление.
+* Кликабельное уведомление сразу открывает вкладку нужного игрока в Журнале изменений.
+* Поддерживает **откат изменений** одной кнопкой (восстановление удалённых предметов/актёров, возврат старых значений, удаление ошибочно созданного).
+* Максимальное количество хранимых записей настраивается в Меню отладки (по умолчанию `50`).
+
+<details>
+<summary>📷 Скриншоты</summary>
+
+![Журнал изменений](https://github.com/user-attachments/assets/e3782067-cbd6-4180-9fae-4f77fe48ead8)
+
+<!-- 📸 СКРИНШОТ 5: Всплывающее стилизованное уведомление в углу экрана о том, что игрок изменил параметр актёра -->
+![Уведомление Журнала изменений](docs/images/ru/audit_notification.png)
+
+</details>
+
+---
+
+<a id="ru-ambitions"></a>
+#### 🏆 Сводка по Амбициям *(только для Мастера)*
+Единое окно для контроля краткосрочных и долгосрочных амбиций партии и каждого персонажа: быстрая отметка достижения и синхронизация командных амбиций.
+
+<details>
+<summary>📷 Скриншоты</summary>
+
+![Сводка по Амбициям](https://github.com/user-attachments/assets/7df88173-617f-4469-b158-52415b79546e)
+
+</details>
+
+---
+
+<a id="ru-macros"></a>
+#### 🧩 Менеджер макросов
+Объединяет встроенные генераторы и утилиты (а также макросы из совместимых модулей) в одном окне.
+* **ЛКМ** — мгновенный запуск скрипта.
+* **Alt + ЛКМ** — создание обычного макроса на панели мира.
+
+<details>
+<summary>📋 Список встроенных макросов и скриншоты</summary>
+
+**Создание предметов:**
+* **Магический посох** — генерация с выбором школы магии, причуд/проклятий и эффектов.
+* **Магический щит / оружие / броня** — генерация с роллами по таблицам свойств, истории и размеров доспехов.
+* **Свиток заклинания** — выбор школы магии и максимального Порога Сотворения (ПС).
+* **Гримуар** — генерация школы, списка заклинаний, внешнего вида, особенностей и случайного названия.
+
+**Помощь Мастеру:**
+* **Панель управления командами** — удобное меню для системных команд (`/credit`, `/pay`, `/exp`).
+* **Название книги** — генератор названий книг в стилистике сеттинга (по типам или случайно).
+* **Придумать ругательство** — генератор фэнтезийных оскорблений.
+
+![Окно Макросов](https://github.com/user-attachments/assets/c4e2549c-e6f7-4c64-b1e0-e2c2a7b09386)
+
+![Пример работы макроса](https://github.com/user-attachments/assets/9563a49a-ec87-452c-a684-f11c081272f4)
+
+</details>
+
+---
+
+<a id="ru-audio"></a>
+### 🔊 Звуковая система
+
+Модуль содержит встроенный движок контекстных звуковых эффектов (требуется пакет звуков, например [WFRP4e - Sounds](https://github.com/nPocToI4eJI/wfrp4e-sounds), либо собственная папка со звуками):
+
+* **Авто-нормализация громкости:** при первом воспроизведении модуль анализирует файл, автоматически выравнивает тихие и слишком громкие звуки и пропускает их через защитный ограничитель.
+* **События:** проверки навыков и характеристик, боевые удары/выстрелы/рикошеты/попадания по типам брони, падение в 0 ран, атаки чертами существ, концентрация и сотворение магии по школам, магическая отдача, молитвы и взаимодействие со снаряжением.
+* **«Смешной» режим:** при включении добавляет альтернативные файлы из подпапок `funny/` в общий пул к обычным звукам.
+* **Настройка пути и пересборка:** путь к папке со звуками задаётся в настройках, а каталог файлов обновляется кнопкой в Меню отладки.
+
+<details>
+<summary>📂 Структура папок звуков</summary>
+
+Поддерживаемые форматы: `.ogg`, `.mp3`, `.wav`, `.webm`, `.flac`, `.m4a`.
+
+```text
+<путь из настройки soundsPath>/
+├── combat/   (и опционально funny/) — боевые события, урон, криты, падение в 0 ран
+├── weapon/   (и опционально funny/) — замахи, выстрелы, типы оружия и черты существ
+├── opposed/  (и опционально funny/) — встречные проверки, парирование, уклонение, промахи
+├── hit/      (и опционально funny/) — попадания по броне (латы, кольчуга, кожа, плоть)
+├── magic/    (и опционально funny/) — концентрация, школы магии, мискасты
+├── prayer/   (и опционально funny/) — благословения, чудеса, Гнев Богов
+├── skill/    (и опционально funny/) — проверки навыков и характеристик
+└── item/     (и опционально funny/) — действия с предметами и снаряжением
+```
+
+</details>
+
+---
+
+<a id="ru-fixes"></a>
+### 🔧 Исправления и улучшения системы
+
+* **«Уход в защиту»:** удобное окно выбора навыка для бонуса `+20`, гибкий фильтр навыков (*Боевые / Все / Свои* с автоподстановкой при выборе одного навыка) и опциональное авто-снятие статуса в начале следующего хода.
+* **Исправление случайных изображений токенов в чате:** сохраняет фактическую картинку токена при броске и корректно отображает карточки в чате после перезапуска Foundry или удаления токена со сцены (устраняет битые ссылки со звёздочкой).
+* **Новые уведомления:** переработанный компактный формат всплывающих уведомлений (можно включить только для модуля или заменить все стандартные уведомления Foundry).
+* **Перевод актёров при импорте (Babele):** при импорте актёра из Библиотеки предлагает перевести его данные.
+* **Системные правки:** добавлены описания/локализация доп. школ магии (*Великая Пасть*, *Малый/Большой Вааагх!*), изменение стандартных HTML шаблонов, добавляющее описание многим кнопкам.
+
+<details>
+<summary>📷 Скриншоты</summary>
+
+![Уход в защиту](https://github.com/user-attachments/assets/937776fb-24aa-4e6f-ac18-513fbae36c0d)
+
+</details>
+
+---
+
+<a id="ru-settings"></a>
+### ⚙️ Настройки и Меню отладки
+
+<details>
+<summary>Открыть список настроек и инструментов отладки</summary>
+
+**Основные настройки модуля:**
+* **Меню отладки** — переключение `debug`-режима, настройка лимита записей Журнала изменений, обновление каталога звуков, пересчёт Статистики бросков из чата.
+* **Использовать новые уведомления** — распространять новый стиль уведомлений на весь Foundry или только на модуль.
+* **Переводить данные актёров при импорте** — требует модуль `Babele`.
+* **«Уход в защиту» до начала хода** — автоматическое снятие эффекта в начале хода актёра.
+* **Навыки для «Ухода в защиту»** — *Боевые (Уклонение и Рукопашный бой)* / *Все навыки* / *Свои* (ПКМ по списку для редактирования).
+* **Звуковые эффекты** — включение звуков, множитель громкости, «Смешной» режим и путь к папке со звуками.
+
+<!-- 📸 СКРИНШОТ 10: Окно «Меню отладки» со всеми кнопками -->
+![Меню отладки](https://github.com/user-attachments/assets/14f178f0-e264-4565-a2a7-437853c509d9)
+
+</details>
+
+---
+
+<a id="ru-dev"></a>
+### 👨‍💻 Информация для разработчиков
+
+`wfrp4e-tools` предоставляет единое API в пространстве `game.wfrp4e.tools` и механизм модульных расширений.
+
+<details>
+<summary>🔌 Публичное API (<code>game.wfrp4e.tools</code>)</summary>
+
+* **Уведомления:**
+  ```javascript
+  game.wfrp4e.tools.newNotification(
+    { title: "Заголовок", text: "Текст уведомления" },
+    { color: "green" } // blue | green | orange | red | black
+  );
+  ```
+* **Приложения:** `RollStatsApp`, `AuditLogsApp`, `AmbitionsSummaryApp`, `MacrosApp` (у каждого есть метод `.create()`).
+* **Звуки:** `game.wfrp4e.tools.Audio.playLocal({ category, keys, delay, volume })` и `Audio.buildCatalog()`.
+* **Утилиты:** `randomArrayElement(arr)`, `getNestedKeys(obj)`, `generateBookTitle(type)`, `getSpeaker(speaker)`.
+
+</details>
