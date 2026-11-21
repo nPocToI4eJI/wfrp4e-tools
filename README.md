@@ -83,8 +83,7 @@
 
 ![Журнал изменений](https://github.com/user-attachments/assets/e3782067-cbd6-4180-9fae-4f77fe48ead8)
 
-<!-- 📸 СКРИНШОТ 5: Всплывающее стилизованное уведомление в углу экрана о том, что игрок изменил параметр актёра -->
-![Уведомление Журнала изменений](docs/images/ru/audit_notification.png)
+![Уведомление Журнала изменений](https://github.com/user-attachments/assets/34cd46e3-cbfc-4233-8f09-0088cd0b8ed5)
 
 </details>
 
