@@ -208,7 +208,7 @@
 
 * **[WFRP4e - Assistant](https://github.com/nPocToI4eJI/wfrp4e-assistant)** \* - этот модуль позволит Мастеру разнообразить НИП и их отыгрыш с помощью встроенных инструментов автоматизации.
 * **[WFRP4e - Looting](https://github.com/nPocToI4eJI/wfrp4e-looting)** \* \*\* - этот модуль поможет Мастеру оптимизировать процесс создания уникального лута.
-* **[WFRP4e - Sounds](https://github.com/nPocToI4eJI/wfrp4e-sounds)** \* \*\* - этот модуль содержит звуковые файлы, адаптированные для [Звуковой системы](#ru-audio).
+* **[WFRP4e - Sounds](https://github.com/nPocToI4eJI/wfrp4e-sounds)** \* - этот модуль содержит звуковые файлы, адаптированные для [Звуковой системы](#ru-audio).
 
 \* Эти модули не работают без **WFRP4e - Tools**.  
 \*\* Эти модули ещё не адаптированы под **WFRP4e - Tools**, и их работоспособность не подтверждена.
@@ -401,7 +401,7 @@ List of modules with full compatibility:
 
 * **[WFRP4e - Assistant](https://github.com/nPocToI4eJI/wfrp4e-assistant)** \* - allows the GM to diversify NPCs and their roleplay using built-in automation tools.
 * **[WFRP4e - Looting](https://github.com/nPocToI4eJI/wfrp4e-looting)** \* \*\* - helps the GM streamline the process of creating unique loot.
-* **[WFRP4e - Sounds](https://github.com/nPocToI4eJI/wfrp4e-sounds)** \* \*\* - contains sound files tailored for the [Audio System](#en-audio).
+* **[WFRP4e - Sounds](https://github.com/nPocToI4eJI/wfrp4e-sounds)** \* - contains sound files tailored for the [Audio System](#en-audio).
 
 \* These modules do not work without **WFRP4e - Tools**.  
 \*\* These modules have not yet been adapted for **WFRP4e - Tools**, and their functionality is not confirmed.
