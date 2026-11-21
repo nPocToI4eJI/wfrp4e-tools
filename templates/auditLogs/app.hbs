@@ -1,0 +1,55 @@
+<section class="tab {{tab.cssClass}}" data-group="primary" data-tab="{{tab.id}}">
+	<table>
+		<colgroup>
+			<col style="width: 10%;">
+			<col style="width: 20%;">
+			<col style="width: 15%;">
+			<col style="width: auto;">
+			<col style="width: 10%;">
+			<col style="width: 10%;">
+			<col style="width: 5%;">
+		</colgroup>
+		<thead>
+			<tr>
+				<th>{{localize 'WFRP4E.Tools.AuditLogs.Dialog.Time'}}</th>
+				<th>{{localize 'WFRP4E.Tools.AuditLogs.Dialog.Target'}}</th>
+				<th>{{localize 'WFRP4E.Tools.AuditLogs.Dialog.Action'}}</th>
+				<th>{{localize 'WFRP4E.Tools.AuditLogs.Dialog.Parameter'}}</th>
+				<th>{{localize 'WFRP4E.Tools.AuditLogs.Dialog.OldValue'}}</th>
+				<th>{{localize 'WFRP4E.Tools.AuditLogs.Dialog.Value'}}</th>
+				<th>{{localize 'WFRP4E.Tools.AuditLogs.Dialog.Undo'}}</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each user.log}}
+			<tr data-index="{{@index}}">
+				<td style="font-style: italic;" data-tooltip="{{this.timeString}}" data-time="{{this.time}}">
+					{{#each this.timeDifference}}
+					<span style="display: block;">{{this}}</span>
+					{{/each}}
+					<span style="display: block;">{{localize 'WFRP4E.Tools.AuditLogs.Dialog.Times.Back'}}</span>
+				</td>
+				<td style="font-weight: bold;" class="target">
+					{{#if this.item}}
+					{{#if this.actor}}
+					<a class="content-link" style="display: block;" data-link data-uuid="{{this.actor.uuid}}" data-type="Actor"><i class="fas fa-user"></i>{{this.actor.name}}: </a>
+					<a class="content-link" style="display: block;" data-link data-uuid="{{this.item.uuid}}" data-type="Item">• <i class="fas fa-suitcase"></i>{{this.item.name}}</a>
+					{{else}}
+					<a class="content-link" data-link data-uuid="{{this.item.uuid}}" data-type="Item"><i class="fas fa-suitcase"></i>{{this.item.name}}</a>
+					{{/if}}
+					{{else}}
+					<a class="content-link" data-link data-uuid="{{this.actor.uuid}}" data-type="Actor"><i class="fas fa-user"></i>{{this.actor.name}}</a>
+					{{/if}}
+				</td>
+				<td style="font-weight: bold;">{{this.action}}</td>
+				<td>"{{#if this.changed.name}}{{this.changed.name}}{{else}}{{this.changed.path}}{{/if}}"</td>
+				<td class="value{{#if this.changed.increase}} increase{{/if}}">{{this.changed.oldValue}}</td>
+				<td class="value{{#unless this.changed.increase}} increase{{/unless}}">{{this.changed.value}}</td>
+				<td>
+					<a class="button" data-action="reset" data-tooltip="{{localize 'WFRP4E.Tools.AuditLogs.Dialog.Reset'}}"><i class="fas fa-undo"></i></a>
+				</td>
+			</tr>
+			{{/each}}
+		</tbody>
+	</table>
+</section>

@@ -1,0 +1,277 @@
+<section class="tab {{#if tab}}{{tab.cssClass}}{{else}}active{{/if}}" data-group="primary" data-tab="{{#if tab}}{{tab.id}}{{else}}{{user.id}}{{/if}}">
+	<div class="rollStats-toolbar">
+		<div class="rollStats-filters">
+			<select data-filter="period" data-tooltip="{{localize 'WFRP4E.Tools.RollStats.Filters.Period.Label'}}">
+				<option value="all" {{#if (eq filters.period "all")}}selected{{/if}}>{{localize 'WFRP4E.Tools.RollStats.Filters.Period.All'}}</option>
+				<option value="today" {{#if (eq filters.period "today")}}selected{{/if}}>{{localize 'WFRP4E.Tools.RollStats.Filters.Period.Today'}}</option>
+				<option value="week" {{#if (eq filters.period "week")}}selected{{/if}}>{{localize 'WFRP4E.Tools.RollStats.Filters.Period.Week'}}</option>
+				<option value="month" {{#if (eq filters.period "month")}}selected{{/if}}>{{localize 'WFRP4E.Tools.RollStats.Filters.Period.Month'}}</option>
+				<option value="custom" {{#if (eq filters.period "custom")}}selected{{/if}}>{{localize 'WFRP4E.Tools.RollStats.Filters.Period.Custom'}}</option>
+			</select>
+			{{#if (eq filters.period "custom")}}
+			<input type="date" data-filter="dateFrom" value="{{filters.dateFrom}}" data-tooltip="{{localize 'WFRP4E.Tools.RollStats.Filters.DateFrom'}}">
+			<input type="date" data-filter="dateTo" value="{{filters.dateTo}}" data-tooltip="{{localize 'WFRP4E.Tools.RollStats.Filters.DateTo'}}">
+			{{/if}}
+			<select data-filter="category" data-tooltip="{{localize 'WFRP4E.Tools.RollStats.Filters.Category.Label'}}">
+				<option value="all" {{#if (eq filters.category "all")}}selected{{/if}}>{{localize 'WFRP4E.Tools.RollStats.Filters.Category.All'}}</option>
+				<option value="combat" {{#if (eq filters.category "combat")}}selected{{/if}}>{{localize 'WFRP4E.Tools.RollStats.Filters.Category.Combat'}}</option>
+				<option value="skills" {{#if (eq filters.category "skills")}}selected{{/if}}>{{localize 'WFRP4E.Tools.RollStats.Filters.Category.Skills'}}</option>
+				<option value="magic" {{#if (eq filters.category "magic")}}selected{{/if}}>{{localize 'WFRP4E.Tools.RollStats.Filters.Category.Magic'}}</option>
+				<option value="CharacteristicTest" {{#if (eq filters.category "CharacteristicTest")}}selected{{/if}}>— {{localize 'WFRP4E.Tools.RollStats.Filters.Category.CharacteristicTest'}}</option>
+				<option value="SkillTest" {{#if (eq filters.category "SkillTest")}}selected{{/if}}>— {{localize 'WFRP4E.Tools.RollStats.Filters.Category.SkillTest'}}</option>
+				<option value="WeaponTest" {{#if (eq filters.category "WeaponTest")}}selected{{/if}}>— {{localize 'WFRP4E.Tools.RollStats.Filters.Category.WeaponTest'}}</option>
+				<option value="TraitTest" {{#if (eq filters.category "TraitTest")}}selected{{/if}}>— {{localize 'WFRP4E.Tools.RollStats.Filters.Category.TraitTest'}}</option>
+				<option value="ChannelTest" {{#if (eq filters.category "ChannelTest")}}selected{{/if}}>— {{localize 'WFRP4E.Tools.RollStats.Filters.Category.ChannelTest'}}</option>
+				<option value="CastTest" {{#if (eq filters.category "CastTest")}}selected{{/if}}>— {{localize 'WFRP4E.Tools.RollStats.Filters.Category.CastTest'}}</option>
+				<option value="PrayerTest" {{#if (eq filters.category "PrayerTest")}}selected{{/if}}>— {{localize 'WFRP4E.Tools.RollStats.Filters.Category.PrayerTest'}}</option>
+			</select>
+		</div>
+		<div class="rollStats-toggles">
+			<a class="button {{#if filters.sections.summary}}active{{/if}}" data-action="toggleSection" data-section="summary" data-tooltip="{{localize 'WFRP4E.Tools.RollStats.Filters.Sections.Hint'}}">
+				<i class="fas fa-dice-d20"></i> {{localize 'WFRP4E.Tools.RollStats.Filters.Sections.Summary'}}
+			</a>
+			<a class="button {{#if filters.sections.sl}}active{{/if}}" data-action="toggleSection" data-section="sl" data-tooltip="{{localize 'WFRP4E.Tools.RollStats.Filters.Sections.Hint'}}">
+				<i class="fas fa-sliders"></i> {{localize 'WFRP4E.Tools.RollStats.Filters.Sections.SL'}}
+			</a>
+			<a class="button {{#if filters.sections.events}}active{{/if}}" data-action="toggleSection" data-section="events" data-tooltip="{{localize 'WFRP4E.Tools.RollStats.Filters.Sections.Hint'}}">
+				<i class="fas fa-bolt"></i> {{localize 'WFRP4E.Tools.RollStats.Filters.Sections.Events'}}
+			</a>
+			<a class="button {{#if filters.sections.breakdown}}active{{/if}}" data-action="toggleSection" data-section="breakdown" data-tooltip="{{localize 'WFRP4E.Tools.RollStats.Filters.Sections.Hint'}}">
+				<i class="fas fa-list-ol"></i> {{localize 'WFRP4E.Tools.RollStats.Filters.Sections.Breakdown'}}
+			</a>
+			<a class="button {{#if filters.sections.history}}active{{/if}}" data-action="toggleSection" data-section="history" data-tooltip="{{localize 'WFRP4E.Tools.RollStats.Filters.Sections.Hint'}}">
+				<i class="fas fa-clock-rotate-left"></i> {{localize 'WFRP4E.Tools.RollStats.Filters.Sections.History'}}
+			</a>
+		</div>
+	</div>
+
+	{{#if stats.hasRolls}}
+	<div class="rollStats-content">
+		{{#if filters.sections.summary}}
+		<div class="rollStats-block">
+			<h5><i class="fas fa-dice-d20"></i> {{localize 'WFRP4E.Tools.RollStats.Filters.Sections.Summary'}}</h5>
+			<div class="rollStats-cards">
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.Summary.TotalRolls'}}</span>
+					<span class="stat-value">{{stats.summary.total}}</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.Summary.Successes'}}</span>
+					<span class="stat-value increase">{{stats.summary.successes}} ({{stats.summary.successRate}}%)</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.Summary.Failures'}}</span>
+					<span class="stat-value decrease">{{stats.summary.failures}} ({{stats.summary.failureRate}}%)</span>
+				</div>
+				<div class="stat-card" data-tooltip="{{localize 'WFRP4E.Tools.RollStats.Summary.AvgRollHint'}}">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.Summary.AvgRoll'}}</span>
+					<span class="stat-value {{#if stats.summary.goodRoll}}increase{{else}}decrease{{/if}}">{{stats.summary.avgRoll}}</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.Summary.AvgTarget'}}</span>
+					<span class="stat-value">{{stats.summary.avgTarget}}</span>
+				</div>
+				<div class="stat-card" data-tooltip="{{localize 'WFRP4E.Tools.RollStats.Summary.ExpectedSuccessHint'}}">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.Summary.ExpectedSuccess'}}</span>
+					<span class="stat-value">{{stats.summary.expectedCount}} ({{stats.summary.expectedRate}}%)</span>
+				</div>
+				<div class="stat-card" data-tooltip="{{localize 'WFRP4E.Tools.RollStats.Summary.LuckIndexHint'}}">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.Summary.LuckIndex'}}</span>
+					<span class="stat-value {{#if stats.summary.lucky}}increase{{else}}decrease{{/if}}">{{stats.summary.luckDelta}}</span>
+				</div>
+			</div>
+			<div class="rollStats-histogram">
+				<span class="hist-title">{{localize 'WFRP4E.Tools.RollStats.Summary.Histogram'}}</span>
+				<div class="hist-bars">
+					{{#each stats.summary.histogram}}
+					<div class="hist-col" data-tooltip="<b>{{this.label}}</b>: {{this.count}} ({{this.pct}}%)">
+						<div class="hist-bar-wrap">
+							<div class="hist-bar" style="height: {{this.heightPct}}%;"></div>
+						</div>
+						<span class="hist-count">{{this.count}}</span>
+						<span class="hist-label">{{this.label}}</span>
+					</div>
+					{{/each}}
+				</div>
+			</div>
+		</div>
+		{{/if}}
+
+		{{#if filters.sections.sl}}
+		<div class="rollStats-block">
+			<h5><i class="fas fa-sliders"></i> {{localize 'WFRP4E.Tools.RollStats.Filters.Sections.SL'}}</h5>
+			<div class="rollStats-cards">
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.SL.AvgSL'}}</span>
+					<span class="stat-value {{#if stats.sl.avgSLPositive}}increase{{else}}decrease{{/if}}">{{stats.sl.avgSL}}</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.SL.AvgSuccessSL'}}</span>
+					<span class="stat-value increase">{{stats.sl.avgSuccessSL}}</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.SL.AvgFailSL'}}</span>
+					<span class="stat-value decrease">{{stats.sl.avgFailSL}}</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.SL.AvgBaseSL'}}</span>
+					<span class="stat-value">{{stats.sl.avgBaseSL}}</span>
+				</div>
+				<div class="stat-card" data-tooltip="{{localize 'WFRP4E.Tools.RollStats.SL.AvgBonusSLHint'}}">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.SL.AvgBonusSL'}}</span>
+					<span class="stat-value {{#if stats.sl.avgBonusPositive}}increase{{/if}}">{{stats.sl.avgBonusSL}}</span>
+				</div>
+				<div class="stat-card" data-tooltip="{{stats.sl.maxSLTooltip}}">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.SL.MaxSL'}}</span>
+					<span class="stat-value increase">{{stats.sl.maxSL}}</span>
+				</div>
+				<div class="stat-card" data-tooltip="{{stats.sl.minSLTooltip}}">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.SL.MinSL'}}</span>
+					<span class="stat-value decrease">{{stats.sl.minSL}}</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.SL.AvgModifier'}}</span>
+					<span class="stat-value {{#if stats.sl.avgModPositive}}increase{{else}}decrease{{/if}}">{{stats.sl.avgModifier}}</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.SL.AvgDifficulty'}}</span>
+					<span class="stat-value">{{stats.sl.avgDifficulty}}</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.SL.WithBonus'}}</span>
+					<span class="stat-value increase">{{stats.sl.modBonus}} ({{stats.sl.modBonusPct}}%)</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.SL.Neutral'}}</span>
+					<span class="stat-value">{{stats.sl.modNeutral}} ({{stats.sl.modNeutralPct}}%)</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.SL.WithPenalty'}}</span>
+					<span class="stat-value decrease">{{stats.sl.modPenalty}} ({{stats.sl.modPenaltyPct}}%)</span>
+				</div>
+			</div>
+		</div>
+		{{/if}}
+
+		{{#if filters.sections.events}}
+		<div class="rollStats-block">
+			<h5><i class="fas fa-bolt"></i> {{localize 'WFRP4E.Tools.RollStats.Filters.Sections.Events'}}</h5>
+			<div class="rollStats-cards">
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.Events.Criticals'}}</span>
+					<span class="stat-value increase">{{stats.events.criticals}} ({{stats.events.critRate}}%)</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.Events.Fumbles'}}</span>
+					<span class="stat-value decrease">{{stats.events.fumbles}} ({{stats.events.fumbleRate}}%)</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.Events.Reversals'}}</span>
+					<span class="stat-value">{{stats.events.reversals}}</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.Events.Misfires'}}</span>
+					<span class="stat-value decrease">{{stats.events.misfires}}</span>
+				</div>
+				<div class="stat-card" data-tooltip="{{stats.events.miscastsTooltip}}">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.Events.Miscasts'}}</span>
+					<span class="stat-value decrease">{{stats.events.miscasts}}</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.Events.Wrath'}}</span>
+					<span class="stat-value decrease">{{stats.events.wrath}}</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.Events.Rerolls'}}</span>
+					<span class="stat-value">{{stats.events.rerolls}}</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.Events.FortuneRerolls'}}</span>
+					<span class="stat-value">{{stats.events.fortuneRerolls}}</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.Events.FortuneSL'}}</span>
+					<span class="stat-value">{{stats.events.fortuneSL}}</span>
+				</div>
+				<div class="stat-card">
+					<span class="stat-label">{{localize 'WFRP4E.Tools.RollStats.Events.DarkDeals'}}</span>
+					<span class="stat-value decrease">{{stats.events.darkDeals}}</span>
+				</div>
+			</div>
+		</div>
+		{{/if}}
+
+		{{#if filters.sections.breakdown}}
+		<div class="rollStats-block">
+			<h5><i class="fas fa-list-ol"></i> {{localize 'WFRP4E.Tools.RollStats.Filters.Sections.Breakdown'}}</h5>
+			<table>
+				<thead>
+					<tr>
+						<th>{{localize 'WFRP4E.Tools.RollStats.Breakdown.Test'}}</th>
+						<th>{{localize 'WFRP4E.Tools.RollStats.Breakdown.Type'}}</th>
+						<th>{{localize 'WFRP4E.Tools.RollStats.Breakdown.Count'}}</th>
+						<th>{{localize 'WFRP4E.Tools.RollStats.Breakdown.SuccessRate'}}</th>
+						<th>{{localize 'WFRP4E.Tools.RollStats.Breakdown.AvgRoll'}}</th>
+						<th>{{localize 'WFRP4E.Tools.RollStats.Breakdown.AvgTarget'}}</th>
+						<th>{{localize 'WFRP4E.Tools.RollStats.Breakdown.AvgMod'}}</th>
+						<th>{{localize 'WFRP4E.Tools.RollStats.Breakdown.AvgSL'}}</th>
+						<th>{{localize 'WFRP4E.Tools.RollStats.Breakdown.CritsFumbles'}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{#each stats.breakdown}}
+					<tr>
+						<td style="font-weight: bold;">{{this.name}}</td>
+						<td>{{this.typeLabel}}</td>
+						<td>{{this.count}}</td>
+						<td class="value {{#if this.goodSuccess}}increase{{/if}}">{{this.successRate}}%</td>
+						<td>{{this.avgRoll}}</td>
+						<td>{{this.avgTarget}}</td>
+						<td>{{this.avgMod}}</td>
+						<td class="value {{#if this.positiveSL}}increase{{/if}}">{{this.avgSL}}</td>
+						<td><span style="color: green;">{{this.crits}}</span> / <span style="color: red;">{{this.fumbles}}</span></td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</div>
+		{{/if}}
+
+		{{#if filters.sections.history}}
+		<div class="rollStats-block">
+			<h5><i class="fas fa-clock-rotate-left"></i> {{localize 'WFRP4E.Tools.RollStats.Filters.Sections.History'}}</h5>
+			<table>
+				<thead>
+					<tr>
+						<th>{{localize 'WFRP4E.Tools.RollStats.History.Time'}}</th>
+						<th>{{localize 'WFRP4E.Tools.RollStats.History.Actor'}}</th>
+						<th>{{localize 'WFRP4E.Tools.RollStats.History.Test'}}</th>
+						<th>{{localize 'WFRP4E.Tools.RollStats.History.Roll'}}</th>
+						<th>{{localize 'WFRP4E.Tools.RollStats.History.Target'}}</th>
+						<th>{{localize 'WFRP4E.Tools.RollStats.History.SL'}}</th>
+						<th>{{localize 'WFRP4E.Tools.RollStats.History.Flags'}}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{#each stats.history}}
+					<tr>
+						<td style="font-style: italic; font-size: 11px;">{{this.timeString}}</td>
+						<td>{{this.actor}}</td>
+						<td style="font-weight: bold;" data-tooltip="{{this.typeLabel}}">{{this.name}}</td>
+						<td class="value {{#if this.succeeded}}increase{{/if}}">
+							{{#if this.reversed}}<span style="text-decoration: line-through; opacity: 0.6;">{{this.originalRoll}}</span> → {{/if}}{{this.roll}}
+						</td>
+						<td>{{this.target}} ({{this.modFormatted}})</td>
+						<td class="value {{#if this.succeeded}}increase{{/if}}">{{this.slFormatted}} ({{this.baseSLFormatted}})</td>
+						<td>{{{this.flagsHTML}}}</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</div>
+		{{/if}}
+	</div>
+	{{else}}
+	<p class="rollStats-empty">{{localize 'WFRP4E.Tools.RollStats.Dialog.Empty'}}</p>
+	{{/if}}
+</section>

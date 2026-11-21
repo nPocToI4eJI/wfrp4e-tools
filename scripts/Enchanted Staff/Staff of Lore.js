@@ -1,0 +1,2 @@
+let lore = warhammer.utility.findKey(this.effect.name.split(" ")[2], game.wfrp4e.config.magicLores);
+if (args.item.type == "spell" && args.item.system.lore.value == lore) {args.item.system.cn.value = Math.max(0, args.item.system.cn.value - 1)};

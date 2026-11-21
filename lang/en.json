@@ -1,0 +1,492 @@
+{
+	"WFRP4E.Tools": {
+		"Debug": {
+			"Name": "Debug Menu",
+			"Label": "Open",
+			"Hint": "Tool for fixing module errors.",
+			"Dialog": {
+				"Mode": {
+					"Label": "Debug Mode",
+					"Content": "Debug mode status:",
+					"Button": "Toggle",
+					"On": "Enabled",
+					"Off": "Disabled"
+				},
+				"Sounds": {
+					"Button": "Rebuild Sound Catalog",
+					"Updated": "Sound catalog updated successfully!"
+				},
+				"RollStats": {
+					"Button": "Rebuild Roll Statistics from Chat",
+					"Updated": "Roll statistics updated! Processed: {total}, newly added: {added}."
+				},
+				"AuditLogsLength": {
+					"Label": "Changelog",
+					"Content": "Number of actions stored by the module.",
+					"Hint": "A large value may increase the settings file size.",
+					"Default": "Recommended value: 50",
+					"Notify": "Number of stored actions changed."
+				}
+			}
+		},
+		"Defensive": {
+			"Label": "Skill Selection",
+			"Hint": "Choose which Skill to use for Defending",
+			"UndefinedFilter": "The skills specified in the settings for Defending were not found. All of the actor's skills are displayed.",
+			"Undefined": "Skills for Defending not found. Your filters might be set incorrectly, or the sheet's Skills are not translated to the world's language.",
+			"Description": "What if you want a character to prepare to dodge or parry a flurry of enemy blows, take a defensive stance in a doorway, or use their <i>Language (Magick)</i> SKILL to dispel a swarm of SPELLS aimed at them? You can choose a SKILL, use an ACTION, and gain a <b>+20</b> modifier to defense TESTS using the chosen SKILL until the start of your next TURN."
+		},
+		"Notification": {
+			"New": "New notification!",
+			"Hint": {
+				"RMB": "RMB: dismiss notification.",
+				"LMB": "LMB: dismiss notification."
+			}
+		},
+		"AuditLogs": {
+			"Title": "Changelog",
+			"Action": {
+				"Create": "Created",
+				"Update": "Updated",
+				"Delete": "Deleted"
+			},
+			"Dialog": {
+				"Time": "Time",
+				"Target": "Target Object",
+				"Action": "Action",
+				"Parameter": "Parameter",
+				"OldValue": "Old Value",
+				"Value": "New Value",
+				"Undo": "Undo",
+				"Times": {
+					"Days": "days",
+					"Hours": "hours",
+					"Minutes": "minutes",
+					"Seconds": "seconds",
+					"Back": "ago"
+				},
+				"Reset": "Undo change",
+				"Clear": "Clear log",
+				"Cleared": "The changelog for {user} has been cleared.",
+				"MissItem": "Could not find the target object. It seems it was deleted.",
+				"MissActor": "Could not find the actor who owned the item. It seems they were deleted."
+			},
+			"Notification": {
+				"Create": "created",
+				"Delete": "deleted",
+				"Update": "updated",
+				"Reset": "undid changes to",
+				"At": "for",
+				"Hint": "LMB: open in Changelog."
+			},
+			"pathToString": {
+				"DamageToItem": "Item Damage",
+				"Skill": "Skill Used",
+				"APdamage": "Armour Damage"
+			}
+		},
+		"AmbitionsSummary": {
+			"Title": "Ambitions Summary",
+			"Achieve": "Achieve",
+			"OneAchieve": "achieve",
+			"AllAchieve": "achieve",
+			"Sync": "Synchronize",
+			"Empty": "none",
+			"Short": "Short Term",
+			"Long": "Long Term",
+			"Personal": "personal",
+			"Party": "party",
+			"Reason": "{type} {class} ambition",
+			"Notify": "{actors} {action} {type} {class} амбиция!"
+		},
+		"RollStats": {
+			"Title": "Roll Statistics",
+			"Tabs": {
+				"All": "All Players"
+			},
+			"Filters": {
+				"Period": {
+					"Label": "Period",
+					"All": "All Time",
+					"Today": "Today",
+					"Week": "Last 7 Days",
+					"Month": "Last 30 Days",
+					"Custom": "Custom Period"
+				},
+				"DateFrom": "From",
+				"DateTo": "To",
+				"Category": {
+					"Label": "Test Category",
+					"All": "All Tests",
+					"Combat": "Combat",
+					"Skills": "Skills & Characteristics",
+					"Magic": "Magic & Prayers",
+					"CharacteristicTest": "Characteristics",
+					"SkillTest": "Skills",
+					"WeaponTest": "Weapons",
+					"TraitTest": "Traits",
+					"ChannelTest": "Channelling",
+					"CastTest": "Spells",
+					"PrayerTest": "Prayers"
+				},
+				"Sections": {
+					"Summary": "Overview & Luck",
+					"SL": "SL & Modifiers",
+					"Events": "Crits, Magic & Fortune",
+					"Breakdown": "By Test",
+					"History": "Roll History",
+					"Hint": "LMB: show / hide section."
+				}
+			},
+			"Summary": {
+				"TotalRolls": "Total Rolls",
+				"Successes": "Successful Tests",
+				"Failures": "Failed Tests",
+				"AvgRoll": "Average 1d100 Roll",
+				"AvgRollHint": "Average value rolled on 1d100",
+				"AvgTarget": "Average Target",
+				"ExpectedSuccess": "Expected Success",
+				"ExpectedSuccessHint": "Mathematically expected success percentage based on the target numbers of all rolls.",
+				"LuckIndex": "Luck Index",
+				"LuckIndexHint": "Difference between actual success percentage and mathematically expected success rate.",
+				"Histogram": "1d100 Roll Distribution by Deciles"
+			},
+			"SL": {
+				"AvgSL": "Average Total SL",
+				"AvgSuccessSL": "Avg SL on Success",
+				"AvgFailSL": "Avg SL on Failure",
+				"AvgBaseSL": "Avg Base SL (Dice)",
+				"AvgBonusSL": "Avg SL Bonus",
+				"AvgBonusSLHint": "Average SL bonus gained from talents, trappings, and Advantage.",
+				"MaxSL": "Record Max SL",
+				"MinSL": "Record Min SL",
+				"AvgModifier": "Average Modifier",
+				"AvgDifficulty": "Average Difficulty",
+				"WithBonus": "With Bonus (+)",
+				"Neutral": "Unmodified (0)",
+				"WithPenalty": "With Penalty (-)"
+			},
+			"Events": {
+				"Criticals": "Critical Successes",
+				"Fumbles": "Fumbles",
+				"Reversals": "Dice Reversals",
+				"Misfires": "Weapon Misfires",
+				"Miscasts": "Miscasts",
+				"MiscastsBreakdown": "Minor: {minor} | Major: {major} | Catastrophic: {cat}",
+				"Wrath": "Wrath of the Gods",
+				"Rerolls": "Total Rerolls",
+				"FortuneRerolls": "Fortune: Reroll",
+				"FortuneSL": "Fortune: +1 SL",
+				"DarkDeals": "Dark Deals"
+			},
+			"Breakdown": {
+				"Test": "Test",
+				"Type": "Type",
+				"Count": "Rolls",
+				"SuccessRate": "Success",
+				"AvgRoll": "Avg 1d100",
+				"AvgTarget": "Avg Target",
+				"AvgMod": "Avg Mod",
+				"AvgSL": "Avg SL",
+				"CritsFumbles": "Crit / Fumb"
+			},
+			"History": {
+				"Time": "Time",
+				"Actor": "Actor",
+				"Test": "Test",
+				"Roll": "1d100",
+				"Target": "Target (Mod)",
+				"SL": "SL (Base)",
+				"Flags": "Special"
+			},
+			"Dialog": {
+				"Empty": "No rolls found for the selected period and category.",
+				"Clear": "Clear Statistics",
+				"ClearConfirm": "Are you sure you want to clear roll statistics for \"{user}\"?",
+				"Cleared": "Roll statistics for {user} have been cleared."
+			}
+		},
+		"Macros": {
+			"Title": "Macros",
+			"Button": "LMB: run macro.<br>Alt+LMB: create regular macro.",
+			"Dialog": {
+				"Create": "Create Items",
+				"Help": "GM Helpers"
+			},
+			"Search": "Searching for:",
+			"Arcane": "Arcane",
+			"Create": {
+				"EnchantedStaff": {
+					"Title": "Create Enchanted Staff",
+					"Item": "Staff"
+				},
+				"Shield": {
+					"Title": "Create Magical Shield",
+					"Item": "Shield",
+					"Table": "Magical Shields. Properties"
+				},
+				"Weapon": {
+					"Title": "Create Magical Weapon",
+					"Item": "Weapon",
+					"Table1": "Magical Weapons. Properties",
+					"Table2": "Magical Weapon History"
+				},
+				"Armour": {
+					"Title": "Create Magical Armour",
+					"Item": "Armour",
+					"Table1": "Armour Size - Species",
+					"Table2": "Armour Size - Height",
+					"Table3": "Magical Armour. Properties",
+					"Size": {
+						"Title": "Armour Size",
+						"EShort": "Extremely Short",
+						"Short": "Short",
+						"Average": "Average",
+						"Tall": "Tall",
+						"ETall": "Extremely Tall"
+					}
+				},
+				"Scroll": {
+					"Title": "Create Spell Scroll"
+				},
+				"Grimoire": {
+					"Title": "Create Grimoire",
+					"Appearance": "Appearance",
+					"Spells": "Spells",
+					"Features": "Features"
+				}
+			},
+			"Random": {
+				"Label": "Random",
+				"Table": "Random (table)",
+				"Hint": "The roll is made on the table from \"Archives of the Empire III\" or \"Winds of Magic\", which do not include all Magic Lores.",
+				"GrimoireHint": "The \"Scrolls - Lore\" table is used here because the \"Random Grimoire - Lore\" table cannot be adapted for the macro."
+			},
+			"Generate": {
+				"Title": "Create {name}",
+				"Scroll": "Spell Scroll",
+				"Grimoire": "Grimoire",
+				"Staff": "Staff",
+				"Lore": "Specify the required Magic Lore.",
+				"CN": "Specify the required Casting Number.<hr>0: random.",
+				"Count": "Specify the required number of spells.<hr>0: random."
+			},
+			"Error": {
+				"MissItem": "Could not find item: \"{item}\".<br>Make sure \"{comp}\" is installed and successfully initialized.",
+				"MissItemReplace": "Could not find item: \"{item}\".<br>The base item \"{baseItem}\" was used instead.",
+				"Scroll": "Could not find a spell of the \"{lore}\" lore with a CN of \"{cn}\" or less to create a spell scroll.",
+				"Grimoire": {
+					"Tables": "Missing tables to create a random grimoire. You may not have initialized the \"Archives of the Empire III\" or \"Winds of Magic\" modules.\nThe Grimoire will be created without determining additional features.",
+					"MissCN": "Could not find spells of the \"{lore}\" lore with a CN of \"{cn}\" or less to create a grimoire.",
+					"MissCount": "Could not find \"{count}\" spells of the \"{lore}\" lore with a CN of \"{cn}\" or less, so Arcane spells were added."
+				},
+				"Table": {
+					"Rand": "Could not find the table \"{type}\". The built-in randomizer was used.",
+					"Miss": "Could not find the table \"{type}\".<br>Make sure \"{comp}\" is installed and successfully initialized."
+				},
+				"CN": "{type} - max CN",
+				"Count": "Random grimoire - spells"
+			},
+			"Swearing": {
+				"Title": "Invent an Insult",
+				"Hint": "This macro generates fantasy-style insults. Although they are best suited for dwarf characters, you can find a use for them anywhere.",
+				"Flavor": "Invented an insult",
+				"Tables": {
+					"Hint": "This insult is so vile (to a dwarf) that it is considered grounds to start a fight.",
+					"A": [
+						"Rickety",
+						"Cantankerous",
+						"Babbling",
+						"Dangling",
+						"Nitpicking",
+						"Incompetent",
+						"Stinking",
+						"Hidebound",
+						"Warty",
+						"Drooling",
+						"Gibbering",
+						"Repugnant",
+						"Moth-eaten",
+						"Corroded",
+						"Slothful",
+						"Pompous",
+						"Witless",
+						"Tentacled",
+						"Hideous",
+						"Craftless",
+						"Feckless",
+						"Dandified*",
+						"Clanless*",
+						"Perfumed*",
+						"Dainty*",
+						"Beardless*"
+					],
+					"B": [
+						"lily-livered",
+						"anvil-dropping",
+						"cave-slinking",
+						"rat-eaten",
+						"nib-chewing",
+						"toe-biting",
+						"addle-pated",
+						"mucus-oozing",
+						"axe-breaking",
+						"lice-ridden",
+						"snot-chewing",
+						"porridge-eating",
+						"milk-drinking",
+						"lantern-lugging",
+						"jelly-spined",
+						"hanky-waving*",
+						"two-faced*",
+						"tool-snatching*",
+						"elf-kissing*",
+						"beard-shaving*",
+						"ballet-dancing*",
+						"tree-hugging*",
+						"poetry-reading*",
+						"pointy-eared*",
+						"willow-waisted*",
+						"",
+						"",
+						"",
+						"",
+						""
+					],
+					"C": [
+						"thumb-basher",
+						"halfling's-armpit",
+						"fossil",
+						"stalactite",
+						"bat-dropping",
+						"gas-spore",
+						"pestie",
+						"puke-for-brains",
+						"stench kow",
+						"rockrunt",
+						"lump of anthracite",
+						"cave-fungus",
+						"sewer-rat",
+						"tunnel-worm",
+						"smudge-rubber",
+						"rust-bucket",
+						"cave-gherkin",
+						"troll-friend*",
+						"orc-friend*",
+						"goblin-friend*",
+						"snotling-fondler*",
+						"sissy*",
+						"pixie*",
+						"troll-barf*",
+						"oath-breaker*",
+						"goblin-spawn*",
+						"orc-spawn*",
+						"troll-spawn*",
+						"crybaby*",
+						"steaming heap of troll dung*"
+					]
+				}
+			},
+			"BooksTitle": {
+				"Title": "Book Title",
+				"Hint": "This macro generates a random book title in the style of the setting.",
+				"Quantity": "Number of rolls",
+				"Type": {
+					"Title": "Book type",
+					"Random": "Random"
+				},
+				"Roll": "Generate",
+				"Flavor": "Invented a book title"
+			},
+			"CommandControlPanel": {
+				"Title": "Command Control Panel",
+				"Hint": "This macro provides a convenient menu for system commands.",
+				"Button": "Execute",
+				"Action": {
+					"Title": "Select action",
+					"Credit": "Give money",
+					"Pay": "Take money",
+					"Exp": "Add (+) / Remove (-) experience",
+					"Fortune": "Fortune coin *"
+				},
+				"Fortune": "Once per gaming session, a character can spend <i>one</i> {img} to gain <i>one point</i> of <b>Fortune</b>. If this <b>Fortune</b> point is not spent during the session, it is lost.",
+				"Homebrew": "Homebrew rule",
+				"Experience": "Halve companions' experience?"
+			},
+			"CreateMacro": {
+				"Title": "Replace macro?",
+				"Content": "The macro {macro} already exists. Replace it?<hr>Yes: the old macro will be deleted.<br>No: the old macro will not be deleted.",
+				"MissModule": "The module \"{module}\" is disabled. The macro's functionality cannot be guaranteed!",
+				"Complete": "Macro \"{name}\" created!"
+			}
+		},
+		"Sounds": {
+			"Miss": "Sound file not found",
+			"Traits": {
+				"Bite": "bite",
+				"Breath": "breath, vomit, spit",
+				"Claw": "claw, horn, tentacle, tail, stomp, pincer, sting, tusk",
+				"Ranged": "ranged, shoot, throw"
+			}
+		},
+		"Settings": {
+			"defensiveRemove": {
+				"Name": "\"Defending\" removed before turn",
+				"Hint": "Enabled: The \"Defending\" status will be removed at the start of the actor's turn.\nDisabled: The \"Defending\" status will remain active until manually removed."
+			},
+			"defensiveList": {
+				"Name": "Skills for \"Defending\"",
+				"Hint": "Select which skills will be offered for the \"Defending\" action.\nRegardless of the choice, skills will only be displayed if the actor has them. If none of the selected skills are found, all available skills will be offered.\nIf you want to change the skills selected for the \"Custom\" option, right-click.",
+				"Combat": "Combat (Dodge and Melee)",
+				"All": "All skills",
+				"Custom": {
+					"Name": "Custom",
+					"Label": "Skill Selection",
+					"Hint": "Specify which skills to display in the \"Defending\" selection window.<br>Skills the actor does not have will not be displayed.<br>If only one skill is specified, it will be automatically selected for the \"Defending\" action.",
+					"Confirm": {
+						"Label": "Change settings?",
+						"Hint": "A custom skill filter is already set. Do you want to change it?",
+						"List": "Specified skills"
+					}
+				}
+			},
+			"updateNotification": {
+				"Name": "Use new notifications",
+				"Hint": "Enabled: all standard notifications will use the new format.\nDisabled: only module notifications will use the new format."
+			},
+			"translateImportedActors": {
+				"Name": "Translate actor data on import",
+				"Hint": "Enabled: when importing an actor from a Compendium, you will be prompted to translate their data.\nDisabled: actor import from a Compendium will proceed as usual.\n\nRequires the \"Babele\" module."
+			},
+			"enableSounds": {
+				"Name": "Enable Sound Effects",
+				"Hint": "Enabled: play sounds during skill checks, in combat, magic, and when handling equipment.\nDisabled: module sounds will not be played.\n\nRequires the \"WFRP4e - Sounds\" module or another compatible one."
+			},
+			"soundsVolume": {
+				"Name": "Sound Effects Volume",
+				"Hint": "Individual volume multiplier for sound effects."
+			},
+			"soundsFunnyMode": {
+				"Name": "\"Funny\" mode for sounds",
+				"Hint": "Enabled: alternative \"funny\" sounds will be played if available.\nDisabled: only standard sounds will be used."
+			},
+			"soundsPath": {
+				"Name": "Path to sounds folder",
+				"Hint": "Path to the root directory of the module's sound effects."
+			}
+		},
+		"Control": "Additional tools",
+		"Search": "Search items:"
+	},
+	"WFRP4E.Conditions.Dead": "The character is dead.",
+	"WFRP4E.MagicLores.arcane": "Arcane Magic",
+	"WFRP4E.MagicLores.greatMaw": "The Great Maw",
+	"WFRP4E.MagicWind.greatMaw": "The Great Maw",
+	"WFRP4E.greatMaw.descriptions": "<p>Whenever an Ogre Butcher successfully casts spells of the Great Maw, the offering they have eaten may restore health. Make a [[/r 1d10]] roll. If the result is 10, or is equal to or exceeds the CN of the cast spell, the Butcher heals wounds equal to the spell's CN.</p>",
+	"WFRP4E.MagicLores.little-waaagh": "Little Waaagh!",
+	"WFRP4E.MagicWind.little-waaagh": "Little Waaagh!",
+	"WFRP4E.little-waaagh.descriptions": "<p>The spells of Goblin Shamans (and some Hobgoblins) usually manifest the \"Waaagh!\" as malicious tricks and hexes. The confidence of Goblin Shamans grows as their spells succeed. If the mage gains additional SL as a result of a Casting Test, they can spend them using Overcasting rules or use them to purchase one Fortune point. Fortune points gained this way can accumulate beyond the maximum limit, but must be spent before the end of combat or they will be lost.</p>",
+	"WFRP4E.MagicLores.big-waaagh": "Big Waaagh!",
+	"WFRP4E.MagicWind.big-waaagh": "Big Waaagh!",
+	"WFRP4E.big-waaagh.descriptions": "<p>The spells of the \"Big Waaagh!\" serve as conduits for massive amounts of \"Waaagh!\" energy, and releasing it emboldens the hearts of nearby Orcs, Goblins, and Hobgoblins. Whenever a Character casts a \"Big Waaagh!\" spell, all Orcs, Hobgoblins, and Goblins within Willpower yards lose all @Condition[Broken] conditions.</p>"
+}

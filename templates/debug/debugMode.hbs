@@ -1,0 +1,9 @@
+<div class="debugMode">
+	<h5>{{localize 'WFRP4E.Tools.Debug.Dialog.Mode.Label'}}</h5>
+	<div style="display: flex; justify-content: space-evenly;">
+		<span>{{localize 'WFRP4E.Tools.Debug.Dialog.Mode.Content'}}</span>
+		&nbsp;
+		<span id="debugMode" style="font-style: italic; color: {{#if debug}}green{{else}}red{{/if}};">{{#if debug}}{{localize 'WFRP4E.Tools.Debug.Dialog.Mode.On'}}{{else}}{{localize 'WFRP4E.Tools.Debug.Dialog.Mode.Off'}}{{/if}}</span>
+	</div>
+	<a class="button" data-action="debugMode"><i class='fas fa-gear'></i>{{localize 'WFRP4E.Tools.Debug.Dialog.Mode.Button'}}</a>
+</div>

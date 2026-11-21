@@ -1,0 +1,30 @@
+{{#if (eq action "create")}}
+<p>{{user.name}} {{localize 'WFRP4E.Tools.AuditLogs.Notification.Create'}} {{#if target.item}}"{{target.item}}"{{#if target.actor}} {{localize 'WFRP4E.Tools.AuditLogs.Notification.At'}} "{{target.actor}}"{{/if}}{{else}}"{{target.actor}}"{{/if}}</p>
+{{/if}}
+{{#if (eq action "resetCreate")}}
+<p>{{user.name}} {{localize 'WFRP4E.Tools.AuditLogs.Notification.Delete'}} {{#if target.item}}"{{target.item}}"{{#if target.actor}} {{localize 'WFRP4E.Tools.AuditLogs.Notification.At'}} "{{target.actor}}"{{/if}}{{else}}"{{target.actor}}"{{/if}}</p>
+{{/if}}
+{{#if (eq action "delete")}}
+<p>{{user.name}} {{localize 'WFRP4E.Tools.AuditLogs.Notification.Delete'}} {{#if target.item}}"{{target.item.name}}"{{#if target.actor}} {{localize 'WFRP4E.Tools.AuditLogs.Notification.At'}} "{{target.actor.name}}"{{/if}}{{else}}"{{target.actor.name}}"{{/if}}</p>
+{{/if}}
+{{#if (eq action "resetDelete")}}
+<p>{{user.name}} {{localize 'WFRP4E.Tools.AuditLogs.Notification.Create'}} {{#if target.item}}"{{target.item.name}}"{{#if target.actor}} {{localize 'WFRP4E.Tools.AuditLogs.Notification.At'}} "{{target.actor.name}}"{{/if}}{{else}}"{{target.actor.name}}"{{/if}}</p>
+{{/if}}
+{{#if (eq action "update")}}
+<p>{{user.name}} {{localize 'WFRP4E.Tools.AuditLogs.Notification.Update'}} {{#if target.item}}"{{target.item.name}}"{{#if target.actor}} {{localize 'WFRP4E.Tools.AuditLogs.Notification.At'}} "{{target.actor.name}}"{{/if}}{{else}}"{{target.actor.name}}"{{/if}}</p>
+<hr>
+<ul>
+	{{#each target.changed as |changed|}}
+	<li><b>"{{#if changed.name}}{{changed.name}}{{else}}{{changed.path}}{{/if}}"</b>: {{changed.oldValue}} <i class="fas fa-arrow-right"></i> {{changed.value}}</li>
+	{{/each}}
+</ul>
+{{/if}}
+{{#if (eq action "resetUpdate")}}
+<p>{{user.name}} {{localize 'WFRP4E.Tools.AuditLogs.Notification.Reset'}} {{#if target.item}}"{{target.item.name}}"{{#if target.actor}} {{localize 'WFRP4E.Tools.AuditLogs.Notification.At'}} "{{target.actor.name}}"{{/if}}{{else}}"{{target.actor.name}}"{{/if}}</p>
+<hr>
+<ul>
+	{{#each target.changed as |changed|}}
+	<li><b>"{{#if changed.name}}{{changed.name}}{{else}}{{changed.path}}{{/if}}"</b>: {{changed.oldValue}} <i class="fas fa-arrow-left"></i> {{changed.value}}</li>
+	{{/each}}
+</ul>
+{{/if}}

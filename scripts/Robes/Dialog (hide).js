@@ -1,0 +1,2 @@
+let lore = warhammer.utility.findKey(this.effect.name.split("(")[1].split(")")[0], game.wfrp4e.config.magicLores);
+return !args.spell || (args.type == "cast" && ["petty", lore].includes(args.spell.system.lore.value));

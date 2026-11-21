@@ -1,0 +1,36 @@
+<div style="overflow-y: auto;">
+	<div style="display: flex; flex-wrap: wrap; gap: 2px; margin-bottom: 2px;">
+		{{#each actors as |actor|}}
+		<div style="display: flex; gap: 10px; flex-direction: column; flex-basis: calc(50% - 2px); border: 2px dotted var(--color-element-border); border-radius: 15px; overflow: hidden;">
+			<h4 style="font-style: italic; text-align: center;"><a data-type="button" data-action="clickActor" data-uuid="{{actor.uuid}}">{{actor.name}}</a></h4>
+			<h6 style="text-align: center;">{{localize "Exp"}}: {{actor.system.details.experience.current}} / {{actor.system.details.experience.total}}</h6>
+			<h5 style="text-align: center;">{{localize "Personal Ambitions"}}</h5>
+			<h6 style="text-align: center;">{{localize "Short Term"}}</h6>
+			<div style="display: flex; align-items: center; justify-content: space-between; gap: 2px;" data-uuid="{{actor.uuid}}" data-type="short">
+				<a class="button" style="flex: 1;" data-type="button" data-action="achieve"><i class="fas fa-check"></i>{{localize "WFRP4E.Tools.AmbitionsSummary.Achieve"}}</a>
+				<input style="flex: 3; text-align: center;" type="text" value="{{actor.system.details.[personal-ambitions].[short-term]}}" placeholder="{{localize "WFRP4E.Tools.AmbitionsSummary.Empty"}}">
+			</div>
+			<h6 style="text-align: center;">{{localize "Long Term"}}</h6>
+			<div style="display: flex; align-items: center; justify-content: space-between; gap: 2px;" data-uuid="{{actor.uuid}}" data-type="long">
+				<a class="button" style="flex: 1; border-bottom-left-radius: 15px;" data-type="button" data-action="achieve"><i class="fas fa-check"></i>{{localize "WFRP4E.Tools.AmbitionsSummary.Achieve"}}</a>
+				<input style="flex: 3; border-bottom-right-radius: 15px; text-align: center;" type="text" value="{{actor.system.details.[personal-ambitions].[long-term]}}" placeholder="{{localize "WFRP4E.Tools.AmbitionsSummary.Empty"}}">
+			</div>
+		</div>
+		{{/each}}
+	</div>
+	<div style="display: flex; gap: 10px; flex-direction: column; border: 2px dotted var(--color-element-border); border-radius: 15px; overflow: hidden;">
+		<h4 style="text-align: center;">{{localize "Party Ambitions"}}</h4>
+		<h6 style="text-align: center;">{{localize "Short Term"}}</h6>
+		<div style="display: flex; align-items: center; justify-content: space-between; gap: 2px;" data-uuid="party" data-type="short">
+			<a class="button" style="flex: 1;" data-type="button" data-action="achieve"><i class="fas fa-check"></i>{{localize "WFRP4E.Tools.AmbitionsSummary.Achieve"}}</a>
+			<input style="flex: 6; text-align: center;" type="text" value="{{ambitions.short}}" placeholder="{{localize "WFRP4E.Tools.AmbitionsSummary.Empty"}}">
+			<a class="button" style="flex: 1;" data-type="button" data-action="sync" data-tooltip=""><i class="fas fa-rotate"></i>{{localize "WFRP4E.Tools.AmbitionsSummary.Sync"}}</a>
+		</div>
+		<h6 style="text-align: center;">{{localize "Long Term"}}</h6>
+		<div style="display: flex; align-items: center; justify-content: space-between; gap: 2px;" data-uuid="party" data-type="long">
+			<a class="button" style="flex: 1; border-bottom-left-radius: 15px;" data-type="button" data-action="achieve"><i class="fas fa-check"></i>{{localize "WFRP4E.Tools.AmbitionsSummary.Achieve"}}</a>
+			<input style="flex: 6; text-align: center;" type="text" value="{{ambitions.long}}" placeholder="{{localize "WFRP4E.Tools.AmbitionsSummary.Empty"}}">
+			<a class="button" style="flex: 1; border-bottom-right-radius: 15px;" data-type="button" data-action="sync" data-tooltip=""><i class="fas fa-rotate"></i>{{localize "WFRP4E.Tools.AmbitionsSummary.Sync"}}</a>
+		</div>
+	</div>
+</div>

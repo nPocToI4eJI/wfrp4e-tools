@@ -1,0 +1,14 @@
+<div>
+	<h3 style="text-align: center;">{{localize 'WFRP4E.Tools.Macros.Dialog.Create'}}</h3>
+	<div data-type="create">
+		{{#each macros.create as |macro|}}
+		<a class="button"{{#unless macro.visible}} hidden{{/unless}} data-type="button" data-action="clickMacro" data-id="{{macro.id}}" data-tooltip="{{localize macro.tooltip}}{{#if macro.tooltip}}<hr>{{/if}}{{localize 'WFRP4E.Tools.Macros.Button'}}"><i class="{{macro.icon}}"></i>{{localize macro.name}}</a>
+		{{/each}}
+	</div>
+	<h3 style="text-align: center;">{{localize 'WFRP4E.Tools.Macros.Dialog.Help'}}</h3>
+	<div data-type="help">
+		{{#each macros.help as |macro|}}
+		<a class="button"{{#unless macro.visible}} hidden{{/unless}} data-type="button" data-action="clickMacro" data-id="{{macro.id}}" data-tooltip="{{localize macro.tooltip}}{{#if macro.tooltip}}<hr>{{/if}}{{localize 'WFRP4E.Tools.Macros.Button'}}"><i class="{{macro.icon}}"></i>{{localize macro.name}}</a>
+		{{/each}}
+	</div>
+</div>
