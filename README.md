@@ -44,7 +44,10 @@
 
 Модуль добавляет на левую панель управления отдельную вкладку **«Дополнительные инструменты»**, из которой открываются основные приложения.
 
-![Панель дополнительных инструментов](https://github.com/user-attachments/assets/ea645d72-d6c9-4410-9fb3-3563a98f4d91)
+<div align="center">
+
+  ![Панель дополнительных инструментов](https://github.com/user-attachments/assets/ea645d72-d6c9-4410-9fb3-3563a98f4d91)
+</div>
 
 ---
 
@@ -237,7 +240,10 @@
 
 The module adds a separate **Additional Tools** tab to the left scene controls bar, providing quick access to its main applications.
 
-![Additional Tools Panel](https://github.com/user-attachments/assets/ea645d72-d6c9-4410-9fb3-3563a98f4d91)
+<div align="center">
+
+  ![Additional Tools Panel](https://github.com/user-attachments/assets/ea645d72-d6c9-4410-9fb3-3563a98f4d91)
+</div>
 
 ---
 
