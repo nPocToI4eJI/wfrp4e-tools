@@ -197,26 +197,3 @@
 ![Меню отладки](https://github.com/user-attachments/assets/14f178f0-e264-4565-a2a7-437853c509d9)
 
 </details>
-
----
-
-<a id="ru-dev"></a>
-### 👨‍💻 Информация для разработчиков
-
-`wfrp4e-tools` предоставляет единое API в пространстве `game.wfrp4e.tools` и механизм модульных расширений.
-
-<details>
-<summary>🔌 Публичное API (<code>game.wfrp4e.tools</code>)</summary>
-
-* **Уведомления:**
-  ```javascript
-  game.wfrp4e.tools.newNotification(
-    { title: "Заголовок", text: "Текст уведомления" },
-    { color: "green" } // blue | green | orange | red | black
-  );
-  ```
-* **Приложения:** `RollStatsApp`, `AuditLogsApp`, `AmbitionsSummaryApp`, `MacrosApp` (у каждого есть метод `.create()`).
-* **Звуки:** `game.wfrp4e.tools.Audio.playLocal({ category, keys, delay, volume })` и `Audio.buildCatalog()`.
-* **Утилиты:** `randomArrayElement(arr)`, `getNestedKeys(obj)`, `generateBookTitle(type)`, `getSpeaker(speaker)`.
-
-</details>
