@@ -1,0 +1,145 @@
+<div class="broadcast-form">
+	<div class="broadcast-field">
+		<label for="broadcast-text">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Text'}}</label>
+		<textarea id="broadcast-text" name="text" rows="2" placeholder="{{localize 'WFRP4E.Tools.Broadcast.Dialog.TextPlaceholder'}}"></textarea>
+	</div>
+
+	<div class="broadcast-field">
+		<label>{{localize 'WFRP4E.Tools.Broadcast.Dialog.Mode.Label'}}</label>
+		<div class="broadcast-modes">
+			<label class="mode-pill" data-tooltip="{{localize 'WFRP4E.Tools.Broadcast.Dialog.Mode.MessageHint'}}"><input type="radio" name="mode" value="message" checked><i class="fas fa-comment-alt"></i> {{localize 'WFRP4E.Tools.Broadcast.Dialog.Mode.Message'}}</label>
+			<label class="mode-pill" data-tooltip="{{localize 'WFRP4E.Tools.Broadcast.Dialog.Mode.CountdownHint'}}"><input type="radio" name="mode" value="countdown"><i class="fas fa-hourglass-half"></i> {{localize 'WFRP4E.Tools.Broadcast.Dialog.Mode.Countdown'}}</label>
+			<label class="mode-pill" data-tooltip="{{localize 'WFRP4E.Tools.Broadcast.Dialog.Mode.StopwatchHint'}}"><input type="radio" name="mode" value="stopwatch"><i class="fas fa-stopwatch"></i> {{localize 'WFRP4E.Tools.Broadcast.Dialog.Mode.Stopwatch'}}</label>
+			<label class="mode-pill" data-tooltip="{{localize 'WFRP4E.Tools.Broadcast.Dialog.Mode.PercentHint'}}"><input type="radio" name="mode" value="percent"><i class="fas fa-percent"></i> {{localize 'WFRP4E.Tools.Broadcast.Dialog.Mode.Percent'}}</label>
+			<label class="mode-pill" data-tooltip="{{localize 'WFRP4E.Tools.Broadcast.Dialog.Mode.CounterHint'}}"><input type="radio" name="mode" value="counter"><i class="fas fa-tasks"></i> {{localize 'WFRP4E.Tools.Broadcast.Dialog.Mode.Counter'}}</label>
+			<label class="mode-pill" data-tooltip="{{localize 'WFRP4E.Tools.Broadcast.Dialog.Mode.RoundsHint'}}"><input type="radio" name="mode" value="rounds"><i class="fas fa-swords"></i> {{localize 'WFRP4E.Tools.Broadcast.Dialog.Mode.Rounds'}}</label>
+		</div>
+	</div>
+
+	<div class="broadcast-row">
+		<div class="broadcast-field" style="flex: 2;">
+			<label>{{localize 'WFRP4E.Tools.Broadcast.Dialog.Color.Label'}}</label>
+			<div class="broadcast-colors">
+				<label class="color-swatch blue" data-tooltip="{{localize 'WFRP4E.Tools.Broadcast.Dialog.Color.Blue'}}"><input type="radio" name="color" value="blue" checked></label>
+				<label class="color-swatch green" data-tooltip="{{localize 'WFRP4E.Tools.Broadcast.Dialog.Color.Green'}}"><input type="radio" name="color" value="green"></label>
+				<label class="color-swatch orange" data-tooltip="{{localize 'WFRP4E.Tools.Broadcast.Dialog.Color.Orange'}}"><input type="radio" name="color" value="orange"></label>
+				<label class="color-swatch red" data-tooltip="{{localize 'WFRP4E.Tools.Broadcast.Dialog.Color.Red'}}"><input type="radio" name="color" value="red"></label>
+				<label class="color-swatch purple" data-tooltip="{{localize 'WFRP4E.Tools.Broadcast.Dialog.Color.Purple'}}"><input type="radio" name="color" value="purple"></label>
+				<label class="color-swatch black" data-tooltip="{{localize 'WFRP4E.Tools.Broadcast.Dialog.Color.Black'}}"><input type="radio" name="color" value="black"></label>
+			</div>
+		</div>
+		<div class="broadcast-field" style="flex: 1.5;">
+			<label for="broadcast-icon">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Icon.Label'}}</label>
+			<select id="broadcast-icon" name="icon">
+				<option value="">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Icon.None'}}</option>
+				<option value="fas fa-bullhorn">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Icon.Bullhorn'}}</option>
+				<option value="fas fa-exclamation-triangle">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Icon.Warning'}}</option>
+				<option value="fas fa-hourglass-half">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Icon.Hourglass'}}</option>
+				<option value="fas fa-skull">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Icon.Skull'}}</option>
+				<option value="fas fa-fire">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Icon.Fire'}}</option>
+				<option value="fas fa-sparkles">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Icon.Magic'}}</option>
+				<option value="fas fa-swords">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Icon.Combat'}}</option>
+				<option value="fas fa-crown">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Icon.Crown'}}</option>
+				<option value="fas fa-bell">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Icon.Bell'}}</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="broadcast-options" data-modes="message">
+		<div class="broadcast-row">
+			<div class="broadcast-field" style="flex: 1;">
+				<label for="broadcast-msg-duration" data-tooltip="{{localize 'WFRP4E.Tools.Broadcast.Dialog.DurationHint'}}">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Duration'}}</label>
+				<input id="broadcast-msg-duration" name="msgDuration" type="number" min="0" step="1" value="0">
+			</div>
+			<label class="broadcast-check" data-tooltip="{{localize 'WFRP4E.Tools.Broadcast.Dialog.ShowBarHint'}}">
+				<input type="checkbox" name="showBar" checked>
+				<span>{{localize 'WFRP4E.Tools.Broadcast.Dialog.ShowBar'}}</span>
+			</label>
+		</div>
+	</div>
+
+	<div class="broadcast-options" data-modes="countdown stopwatch percent" hidden>
+		<div class="broadcast-row">
+			<div class="broadcast-field" style="flex: 1;">
+				<label for="broadcast-minutes">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Minutes'}}</label>
+				<input id="broadcast-minutes" name="minutes" type="number" min="0" max="999" step="1" value="1">
+			</div>
+			<div class="broadcast-field" style="flex: 1;">
+				<label for="broadcast-seconds">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Seconds'}}</label>
+				<input id="broadcast-seconds" name="seconds" type="number" min="0" max="59" step="1" value="0">
+			</div>
+			<div class="broadcast-field" data-modes-only="percent" style="flex: 1.4;" hidden>
+				<label for="broadcast-direction">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Direction.Label'}}</label>
+				<select id="broadcast-direction" name="reverse">
+					<option value="0">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Direction.Up'}}</option>
+					<option value="1">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Direction.Down'}}</option>
+				</select>
+			</div>
+		</div>
+		<p class="broadcast-subhint" data-modes-only="stopwatch" hidden>{{localize 'WFRP4E.Tools.Broadcast.Dialog.StopwatchLimitHint'}}</p>
+	</div>
+
+	<div class="broadcast-options" data-modes="counter" hidden>
+		<div class="broadcast-row">
+			<div class="broadcast-field" style="flex: 1;">
+				<label for="broadcast-val">{{localize 'WFRP4E.Tools.Broadcast.Dialog.CounterStart'}}</label>
+				<input id="broadcast-val" name="counterValue" type="number" min="0" step="1" value="0">
+			</div>
+			<div class="broadcast-field" style="flex: 1;">
+				<label for="broadcast-max">{{localize 'WFRP4E.Tools.Broadcast.Dialog.CounterMax'}}</label>
+				<input id="broadcast-max" name="counterMax" type="number" min="1" step="1" value="6">
+			</div>
+			<div class="broadcast-field" style="flex: 1;">
+				<label for="broadcast-step">{{localize 'WFRP4E.Tools.Broadcast.Dialog.CounterStep'}}</label>
+				<input id="broadcast-step" name="counterStep" type="number" min="1" step="1" value="1">
+			</div>
+			<div class="broadcast-field" style="flex: 1.4;">
+				<label for="broadcast-format">{{localize 'WFRP4E.Tools.Broadcast.Dialog.CounterFormat.Label'}}</label>
+				<select id="broadcast-format" name="displayFormat">
+					<option value="fraction">{{localize 'WFRP4E.Tools.Broadcast.Dialog.CounterFormat.Fraction'}}</option>
+					<option value="percent">{{localize 'WFRP4E.Tools.Broadcast.Dialog.CounterFormat.Percent'}}</option>
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div class="broadcast-options" data-modes="rounds" hidden>
+		<div class="broadcast-row">
+			<div class="broadcast-field" style="flex: 1;">
+				<label for="broadcast-rounds">{{localize 'WFRP4E.Tools.Broadcast.Dialog.RoundsCount'}}</label>
+				<input id="broadcast-rounds" name="roundsCount" type="number" min="1" max="99" step="1" value="3">
+			</div>
+		</div>
+	</div>
+
+	<div class="broadcast-options" data-modes="countdown stopwatch percent counter rounds" hidden>
+		<div class="broadcast-row">
+			<div class="broadcast-field" style="flex: 2;">
+				<label for="broadcast-finish-text">{{localize 'WFRP4E.Tools.Broadcast.Dialog.FinishText'}}</label>
+				<input id="broadcast-finish-text" name="finishText" type="text" placeholder="{{localize 'WFRP4E.Tools.Broadcast.Dialog.FinishTextPlaceholder'}}">
+			</div>
+			<label class="broadcast-check" data-modes-only="countdown stopwatch percent rounds">
+				<input type="checkbox" name="autoRemove">
+				<span>{{localize 'WFRP4E.Tools.Broadcast.Dialog.AutoRemove'}}</span>
+			</label>
+		</div>
+	</div>
+
+	{{#if players.length}}
+	<div class="broadcast-field">
+		<label data-tooltip="{{localize 'WFRP4E.Tools.Broadcast.Dialog.RecipientsHint'}}">{{localize 'WFRP4E.Tools.Broadcast.Dialog.Recipients'}}</label>
+		<div class="broadcast-recipients">
+			{{#each players}}
+			<label class="recipient-pill" style="--user-color: {{this.color}};">
+				<input type="checkbox" name="recipient" value="{{this.id}}" checked>
+				<span>{{this.name}}</span>
+			</label>
+			{{/each}}
+		</div>
+	</div>
+	{{/if}}
+
+	<div class="broadcast-submit">
+		<button type="button" data-action="send"><i class="fas fa-paper-plane"></i> {{localize 'WFRP4E.Tools.Broadcast.Dialog.Send'}}</button>
+	</div>
+</div>

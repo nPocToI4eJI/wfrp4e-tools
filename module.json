@@ -2,7 +2,7 @@
 	"id": "wfrp4e-tools",
     "title": "WFRP4e - Tools",
     "description": "<p>Это Базовый модуль инструментов, улучшений и исправлений для системы <b>Warhammer Fantasy Roleplay 4th Edition</b>.</p>&#10;&#10;<p>This is a core toolkit, quality-of-life, and bugfix module for <b>Warhammer Fantasy Roleplay 4th Edition</b>.</p>",
-    "version": "13.1.0",
+    "version": "13.1.1",
 	"compatibility": {
 		"minimum": "13",
 		"verified": "13.351"
@@ -37,6 +37,6 @@
 	"esmodules": ["tools.js"],
     "styles": ["tools.css"],
 	"url": "https://github.com/nPocToI4eJI/wfrp4e-tools",
-	"manifest": "https://github.com/nPocToI4eJI/wfrp4e-tools/releases/download/13.1.0/module.json",
-	"download": "https://github.com/nPocToI4eJI/wfrp4e-tools/releases/download/13.1.0/wfrp4e-tools.zip"
+	"manifest": "https://github.com/nPocToI4eJI/wfrp4e-tools/releases/download/13.1.1/module.json",
+	"download": "https://github.com/nPocToI4eJI/wfrp4e-tools/releases/download/13.1.1/wfrp4e-tools.zip"
 }

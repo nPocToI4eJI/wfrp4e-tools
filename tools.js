@@ -1,6 +1,35 @@
 let tools = {};
 let debugMessage = ["%cWFRP4e Tools %c[debug]%c.", "font-weight: bold;", "color: orange;", ""];
-let nPocTo_Modules = ["wfrp4e-assistant"/*, "wfrp4e-looting", "wfrp4e-assets", "wfrp4e-sounds", "wfrp4e-print-sheet"*/];
+let nPocTo_Modules = [];
+let nPocTo_Sockets = {};
+let controlsRefreshScheduled = false;
+tools.modules = nPocTo_Modules;
+/**
+ * Регистрирует сторонний или сопутствующий модуль для интеграции с WFRP4e - Tools (Меню отладки, Макросы, Сокеты, Кнопки панели управления).
+ * @param {string} moduleId Идентификатор модуля из module.json.
+ * @param {Object} [config] Необязательные обработчики (например, {sockets: {name: fn}}).
+ */
+tools.registerModule = (moduleId, config = {}) => {
+	if (!moduleId || typeof moduleId !== "string") {return};
+	if (!nPocTo_Modules.includes(moduleId)) {
+		nPocTo_Modules.push(moduleId);
+		if (game.settings.settings.has(`${moduleId}.controlButtons`) && ui.controls && !controlsRefreshScheduled) {
+			controlsRefreshScheduled = true;
+			queueMicrotask(() => {
+				controlsRefreshScheduled = false;
+				ui.controls.render({reset: true});
+			});
+		};
+	};
+	if (config?.sockets && typeof config.sockets === "object") {
+		for (let [name, fn] of Object.entries(config.sockets)) {
+			if (typeof fn === "function") {nPocTo_Sockets[name] = fn};
+		};
+	};
+};
+tools.registerSocket = (name, fn) => {
+	if (name && typeof fn === "function") {nPocTo_Sockets[name] = fn};
+};
 //Меню отладки
 class debugMenu extends HandlebarsApplicationMixin(ApplicationV2) {
 	static DEFAULT_OPTIONS = {
@@ -408,53 +437,64 @@ class Notifications {
 	 */
 	static async newNotification(data = {}, options = {}) {
 		if (!options?.tooltip) {options.tooltip = ""};
-		if (!options?.hint) {options.hint = game.i18n.localize("WFRP4E.Tools.Notification.Hint.RMB")}
-		else {options.hint = options.hint + "<br>" + game.i18n.localize("WFRP4E.Tools.Notification.Hint.RMB")};
+		if (!options.gmOnlyDismiss) {
+			if (!options?.hint) {options.hint = game.i18n.localize("WFRP4E.Tools.Notification.Hint.RMB")}
+			else {options.hint = options.hint + "<br>" + game.i18n.localize("WFRP4E.Tools.Notification.Hint.RMB")};
+		} else if (!options?.hint) {options.hint = ""};
 		if (!options?.template) {
 			options.template = "modules/wfrp4e-tools/templates/other/notification.hbs";
 			if (!data?.text) {data.text = game.i18n.localize("WFRP4E.Tools.Notification.New")};
 		};
 		if (!options?.deleteTime && options?.deleteTime != 0) {options.deleteTime = 5000}
 		else if (options?.deleteTime != 0) {options.deleteTime = Math.max(options.deleteTime, 1000)};
-		if (!options?.color || !["red", "orange", "green", "blue", "black"].includes(options?.color)) {options.color = "black"};
+		if (!options?.color || !["red", "orange", "green", "blue", "purple", "black"].includes(options?.color)) {options.color = "black"};
 		let li = options.element || document.createElement("li");
 		if (options.uuid) {li.dataset.uuid = options.uuid};
 		li.classList.add(options.color);
+		if (options.className) {
+			let extra = Array.isArray(options.className) ? options.className : String(options.className).split(/\s+/);
+			extra.filter(Boolean).forEach(c => li.classList.add(c));
+		};
 		if (data.progress) {
 			li.classList.add("progress");
-			li.style.setProperty("--pct", "0%");
+			li.style.setProperty("--pct", data.pct ?? "0%");
 		};
-		li.dataset.tooltip = (options.tooltip ? options.tooltip + "<hr>" : "") + options.hint;
+		let fullTooltip = (options.tooltip && options.hint) ? `${options.tooltip}<hr>${options.hint}` : (options.tooltip || options.hint);
+		if (fullTooltip) {li.dataset.tooltip = fullTooltip};
 		if (options.dataset?.length) {
 			options.dataset.forEach(d => li.dataset[d.key] = d.value);
 		};
 		li.innerHTML = await foundry.applications.handlebars.renderTemplate(options.template, data);
 		let deleteTimeout;
+		let removeLi = () => {
+			clearTimeout(deleteTimeout);
+			if (li.classList.contains("remove")) {return};
+			li.classList.add("remove");
+			setTimeout(() => {li.remove()}, 500);
+		};
 		let startTimer = () => {
-			deleteTimeout = setTimeout(() => {
-				li.classList.add("remove");
-				setTimeout(() => {
-					li.remove();
-				}, 500);
-			}, options.deleteTime);
+			clearTimeout(deleteTimeout);
+			deleteTimeout = setTimeout(removeLi, options.deleteTime);
 		};
 		let stopTimer = () => {clearTimeout(deleteTimeout)};
-		li.addEventListener("mouseenter", () => {stopTimer()});
-		li.addEventListener("mouseleave", () => {if (options.deleteTime != 0) {startTimer()}});
-		li.addEventListener("contextmenu", (e) => {
+		if (options.pauseOnHover !== false) {
+			li.addEventListener("mouseenter", () => {stopTimer()});
+			li.addEventListener("mouseleave", () => {if (options.deleteTime != 0) {startTimer()}});
+		};
+		li.addEventListener("contextmenu", async (e) => {
 			e.preventDefault();
-			li.classList.add("remove");
-			setTimeout(() => {
-				li.remove();
-			}, 500);
+			if (options.gmOnlyDismiss && !game.user.isGM) {return};
+			if (typeof options.onDismiss === "function") {
+				await options.onDismiss(e, li);
+				return;
+			};
+			removeLi();
 		});
 		li.addEventListener("click", async (e) => {
 			e.preventDefault();
 			if (typeof options.notificationClick === "function") {await options.notificationClick(e, li)};
-			li.classList.add("remove");
-			setTimeout(() => {
-				li.remove();
-			}, 500);
+			if (options.keepOnClick || options.gmOnlyDismiss) {return};
+			removeLi();
 		});
 		Notifications.#ensureContainer().insertAdjacentElement("beforeend", li);
 		if (options.deleteTime != 0) {startTimer()};
@@ -614,6 +654,593 @@ class Notifications {
 	};
 };
 tools.newNotification = Notifications.newNotification.bind(Notifications);
+//Менеджер уведомлений и таймеров Мастера
+class BroadcastManager {
+	static #instances = new Map();
+
+	static formatTime(ms) {
+		let totalSec = Math.max(0, Math.ceil(ms / 1000));
+		let hours = Math.floor(totalSec / 3600);
+		let mins = Math.floor((totalSec % 3600) / 60);
+		let secs = totalSec % 60;
+		let mm = String(mins).padStart(2, "0");
+		let ss = String(secs).padStart(2, "0");
+		return hours > 0 ? `${hours}:${mm}:${ss}` : `${mm}:${ss}`;
+	};
+
+	static shouldDisplay(entry) {
+		if (!entry) {return false};
+		if (game.user.isGM) {return true};
+		if (!Array.isArray(entry.recipients) || !entry.recipients.length) {return true};
+		return entry.recipients.includes(game.user.id);
+	};
+
+	static getElapsed(entry, localStart) {
+		if (entry.paused) {return Math.max(0, Number(entry.pausedElapsed) || 0)};
+		return Math.max(0, Date.now() - localStart);
+	};
+
+	static computeView(entry, elapsedMs) {
+		let mode = entry.mode || "message";
+		let displayText = entry.text || "";
+		let meta = "";
+		let pct = 0;
+		let hasProgress = false;
+		let finished = Boolean(entry.finished);
+		if (mode === "message") {
+			let dur = Number(entry.duration) || 0;
+			if (dur > 0) {
+				let rem = Math.max(0, dur - elapsedMs);
+				finished = rem <= 0;
+				hasProgress = Boolean(entry.showBar);
+				pct = hasProgress ? Math.round((rem / dur) * 100) : 0;
+			};
+		} else if (mode === "countdown") {
+			let dur = Math.max(1000, Number(entry.duration) || 1000);
+			let rem = Math.max(0, dur - elapsedMs);
+			finished = rem <= 0;
+			hasProgress = true;
+			pct = Math.round((rem / dur) * 100);
+			meta = `${entry.paused && !finished ? "⏸ " : ""}${BroadcastManager.formatTime(rem)}`;
+			if (finished && entry.finishText) {displayText = entry.finishText};
+		} else if (mode === "stopwatch") {
+			let limit = Number(entry.duration) || 0;
+			let cur = limit > 0 ? Math.min(elapsedMs, limit) : elapsedMs;
+			finished = limit > 0 && elapsedMs >= limit;
+			hasProgress = limit > 0;
+			pct = limit > 0 ? Math.round((cur / limit) * 100) : 0;
+			let tStr = BroadcastManager.formatTime(Math.floor(cur / 1000) * 1000);
+			meta = `${entry.paused && !finished ? "⏸ " : ""}${tStr}${limit > 0 ? " / " + BroadcastManager.formatTime(limit) : ""}`;
+			if (finished && entry.finishText) {displayText = entry.finishText};
+		} else if (mode === "percent") {
+			let dur = Math.max(1000, Number(entry.duration) || 1000);
+			let ratio = Math.min(Math.max(elapsedMs / dur, 0), 1);
+			finished = elapsedMs >= dur;
+			hasProgress = true;
+			pct = entry.reverse ? Math.round((1 - ratio) * 100) : Math.round(ratio * 100);
+			meta = `${entry.paused && !finished ? "⏸ " : ""}${pct}%`;
+			if (finished && entry.finishText) {displayText = entry.finishText};
+		} else if (mode === "counter") {
+			let max = Math.max(1, Number(entry.max) || 1);
+			let val = Math.min(Math.max(Number(entry.value) || 0, 0), max);
+			finished = val >= max;
+			hasProgress = true;
+			pct = Math.round((val / max) * 100);
+			meta = entry.displayFormat === "percent" ? `${pct}%` : `${val} / ${max}`;
+			if (finished && entry.finishText) {displayText = entry.finishText};
+		} else if (mode === "rounds") {
+			let max = Math.max(1, Number(entry.max) || 1);
+			let val = Math.max(0, Number(entry.value) || 0);
+			finished = val <= 0;
+			hasProgress = true;
+			pct = Math.min(100, Math.round((val / max) * 100));
+			meta = game.i18n.format("WFRP4E.Tools.Broadcast.RoundsShort", {count: val});
+			if (finished && entry.finishText) {displayText = entry.finishText};
+		};
+		return {displayText, meta, pct, hasProgress, finished};
+	};
+
+	static buildHint(entry) {
+		if (!game.user.isGM) {return game.i18n.localize("WFRP4E.Tools.Broadcast.Hint.Player")};
+		let lines = [];
+		if (["countdown", "stopwatch", "percent"].includes(entry.mode)) {lines.push(game.i18n.localize("WFRP4E.Tools.Broadcast.Hint.GMTimer"))}
+		else if (entry.mode === "counter") {lines.push(game.i18n.localize("WFRP4E.Tools.Broadcast.Hint.GMCounter"))}
+		else if (entry.mode === "rounds") {lines.push(game.i18n.localize("WFRP4E.Tools.Broadcast.Hint.GMRounds"))};
+		lines.push(game.i18n.localize("WFRP4E.Tools.Broadcast.Hint.GMDismiss"));
+		if (Array.isArray(entry.recipients) && entry.recipients.length) {
+			let names = entry.recipients.map(id => game.users.get(id)?.name).filter(Boolean);
+			if (names.length) {lines.unshift(game.i18n.format("WFRP4E.Tools.Broadcast.Hint.Recipients", {list: names.join(", ")}))};
+		};
+		return lines.join("<br>");
+	};
+
+	static #refreshApp() {
+		let app = Array.from(foundry.applications.instances.values()).find(a => a instanceof BroadcastApp);
+		if (app) {app.render({parts: ["active"]})};
+	};
+
+	static #clearInstance(id, removeDom = true) {
+		let inst = BroadcastManager.#instances.get(id);
+		if (!inst) {return};
+		if (inst.interval) {clearInterval(inst.interval)};
+		if (inst.removeTimer) {clearTimeout(inst.removeTimer)};
+		if (removeDom && inst.li && !inst.li.classList.contains("remove")) {
+			inst.li.classList.add("remove");
+			let el = inst.li;
+			setTimeout(() => {el.remove()}, 500);
+		};
+		BroadcastManager.#instances.delete(id);
+	};
+
+	static async showLocal(entry, elapsedMs = 0) {
+		if (!entry?.id || !BroadcastManager.shouldDisplay(entry)) {return};
+		let existing = BroadcastManager.#instances.get(entry.id);
+		if (existing) {
+			BroadcastManager.updateLocal(entry, elapsedMs);
+			return;
+		};
+		let localStart = Date.now() - Math.max(0, Number(elapsedMs) || 0);
+		let view = BroadcastManager.computeView(entry, BroadcastManager.getElapsed(entry, localStart));
+		if (view.finished && (entry.autoRemove || (entry.mode === "message" && Number(entry.duration) > 0))) {return};
+		let escapedText = foundry.utils.escapeHTML(view.displayText).replaceAll("\n", "<br>");
+		let li = await Notifications.newNotification(
+			{
+				text: escapedText,
+				icon: entry.icon || "",
+				meta: view.meta,
+				progress: view.hasProgress,
+				pct: `${view.pct}%`
+			},
+			{
+				template: "modules/wfrp4e-tools/templates/broadcast/notification.hbs",
+				color: entry.color || "blue",
+				deleteTime: 0,
+				gmOnlyDismiss: true,
+				keepOnClick: true,
+				pauseOnHover: false,
+				className: ["gm-broadcast", entry.paused ? "paused" : "", view.finished ? "finished" : ""].filter(Boolean),
+				hint: BroadcastManager.buildHint(entry),
+				dataset: [{key: "broadcastId", value: entry.id}],
+				onDismiss: async () => {
+					if (game.user.isGM) {await BroadcastManager.dismiss(entry.id)};
+				},
+				notificationClick: async (e) => {
+					if (!game.user.isGM) {return};
+					let current = BroadcastManager.#instances.get(entry.id)?.entry;
+					if (!current) {return};
+					if (["countdown", "stopwatch", "percent"].includes(current.mode)) {
+						await BroadcastManager.togglePause(entry.id);
+					} else if (current.mode === "counter") {
+						let step = Math.max(1, Number(current.step) || 1);
+						await BroadcastManager.stepCounter(entry.id, e.shiftKey ? -step : step);
+					} else if (current.mode === "rounds") {
+						await BroadcastManager.stepRounds(entry.id, e.shiftKey ? 1 : -1);
+					};
+				}
+			}
+		);
+
+		let inst = {entry: foundry.utils.deepClone(entry), li, interval: null, removeTimer: null, localStart};
+		BroadcastManager.#instances.set(entry.id, inst);
+		BroadcastManager.#startTicking(inst);
+		BroadcastManager.#refreshApp();
+	};
+
+	static #applyViewToDom(inst, view) {
+		let li = inst.li;
+		if (!li?.isConnected) {return};
+		let textEl = li.querySelector(".notification-text");
+		if (textEl) {
+			let htmlText = foundry.utils.escapeHTML(view.displayText).replaceAll("\n", "<br>");
+			if (textEl.innerHTML !== htmlText) {textEl.innerHTML = htmlText};
+		};
+		let metaEl = li.querySelector(".broadcast-meta");
+		if (view.meta) {
+			if (!metaEl) {
+				metaEl = document.createElement("span");
+				metaEl.classList.add("pct", "broadcast-meta");
+				li.querySelector(".broadcast-body")?.append(" ", metaEl);
+			};
+			if (metaEl.textContent !== view.meta) {metaEl.textContent = view.meta};
+		} else if (metaEl) {metaEl.remove()};
+		if (view.hasProgress) {
+			li.classList.add("progress");
+			li.style.setProperty("--pct", `${view.pct}%`);
+		} else {li.classList.remove("progress")};
+		li.classList.toggle("paused", Boolean(inst.entry.paused && !view.finished));
+		li.classList.toggle("finished", Boolean(view.finished));
+	};
+
+	static #startTicking(inst) {
+		if (inst.interval) {
+			clearInterval(inst.interval);
+			inst.interval = null;
+		};
+		let entry = inst.entry;
+		let isTimed = ["countdown", "stopwatch", "percent"].includes(entry.mode) || (entry.mode === "message" && Number(entry.duration) > 0);
+		if (!isTimed || entry.paused) {return};
+		let tickMs = (entry.mode === "percent" || (entry.mode === "message" && entry.showBar)) ? 100 : 250;
+		inst.interval = setInterval(() => {
+			if (!inst.li?.isConnected) {
+				BroadcastManager.#clearInstance(entry.id, false);
+				return;
+			};
+			let elapsed = BroadcastManager.getElapsed(inst.entry, inst.localStart);
+			let view = BroadcastManager.computeView(inst.entry, elapsed);
+			BroadcastManager.#applyViewToDom(inst, view);
+			if (view.finished) {
+				clearInterval(inst.interval);
+				inst.interval = null;
+				inst.entry.finished = true;
+				if (inst.entry.autoRemove || (inst.entry.mode === "message" && Number(inst.entry.duration) > 0)) {
+					let delay = inst.entry.mode === "message" ? 50 : 600;
+					inst.removeTimer = setTimeout(() => {
+						BroadcastManager.#clearInstance(entry.id, true);
+						if (game.user.isGM && game.users.activeGM?.id === game.user.id) {BroadcastManager.#pruneFromSetting(entry.id)};
+						BroadcastManager.#refreshApp();
+					}, delay);
+				} else {BroadcastManager.#refreshApp()};
+			};
+		}, tickMs);
+	};
+
+	static updateLocal(entry, elapsedMs) {
+		let inst = BroadcastManager.#instances.get(entry.id);
+		if (!inst) {
+			if (BroadcastManager.shouldDisplay(entry)) {BroadcastManager.showLocal(entry, elapsedMs ?? 0)};
+			return;
+		};
+		inst.entry = foundry.utils.deepClone(entry);
+		if (typeof elapsedMs === "number") {inst.localStart = Date.now() - Math.max(0, elapsedMs)};
+		let view = BroadcastManager.computeView(inst.entry, BroadcastManager.getElapsed(inst.entry, inst.localStart));
+		BroadcastManager.#applyViewToDom(inst, view);
+		BroadcastManager.#startTicking(inst);
+		if (view.finished && inst.entry.autoRemove && ["counter", "rounds"].includes(inst.entry.mode)) {
+			if (inst.removeTimer) {clearTimeout(inst.removeTimer)};
+			inst.removeTimer = setTimeout(() => {
+				BroadcastManager.#clearInstance(entry.id, true);
+				if (game.user.isGM && game.users.activeGM?.id === game.user.id) {BroadcastManager.#pruneFromSetting(entry.id)};
+				BroadcastManager.#refreshApp();
+			}, 800);
+		};
+		BroadcastManager.#refreshApp();
+	};
+
+	static removeLocal(id) {
+		BroadcastManager.#clearInstance(id, true);
+		BroadcastManager.#refreshApp();
+	};
+
+	static async #pruneFromSetting(id) {
+		if (!game.user.isGM) {return};
+		let list = foundry.utils.deepClone(game.settings.get("wfrp4e-tools", "activeBroadcasts") || []);
+		let filtered = list.filter(b => b.id !== id);
+		if (filtered.length !== list.length) {await game.settings.set("wfrp4e-tools", "activeBroadcasts", filtered)};
+	};
+
+	static async #saveEntry(entry) {
+		if (!game.user.isGM) {return};
+		let list = foundry.utils.deepClone(game.settings.get("wfrp4e-tools", "activeBroadcasts") || []);
+		let idx = list.findIndex(b => b.id === entry.id);
+		if (idx >= 0) {list[idx] = entry}
+		else {list.push(entry)};
+		await game.settings.set("wfrp4e-tools", "activeBroadcasts", list);
+	};
+
+	static async send(config) {
+		if (!game.user.isGM) {return null};
+		let entry = {
+			id: foundry.utils.randomID(),
+			mode: config.mode || "message",
+			text: String(config.text || "").trim() || game.i18n.localize("WFRP4E.Tools.Notification.New"),
+			finishText: String(config.finishText || "").trim(),
+			icon: config.icon || "",
+			color: ["red", "orange", "green", "blue", "purple", "black"].includes(config.color) ? config.color : "blue",
+			recipients: Array.isArray(config.recipients) ? config.recipients : [],
+			duration: Math.max(0, Number(config.duration) || 0),
+			showBar: Boolean(config.showBar),
+			reverse: Boolean(config.reverse),
+			autoRemove: Boolean(config.autoRemove),
+			startedAt: Date.now(),
+			paused: false,
+			pausedElapsed: 0,
+			finished: false,
+			value: Number(config.value) || 0,
+			max: Math.max(1, Number(config.max) || 1),
+			step: Math.max(1, Number(config.step) || 1),
+			displayFormat: config.displayFormat === "percent" ? "percent" : "fraction",
+			lastRound: game.combat?.round ?? 0
+		};
+		await BroadcastManager.#saveEntry(entry);
+		game.socket.emit("module.wfrp4e-tools", {name: "broadcastShow", args: [entry, 0]});
+		await BroadcastManager.showLocal(entry, 0);
+		return entry;
+	};
+
+	static async togglePause(id) {
+		if (!game.user.isGM) {return};
+		let inst = BroadcastManager.#instances.get(id);
+		if (!inst) {return};
+		let entry = foundry.utils.deepClone(inst.entry);
+		if (entry.finished) {return};
+		let elapsed = BroadcastManager.getElapsed(entry, inst.localStart);
+		if (entry.paused) {
+			entry.paused = false;
+			entry.startedAt = Date.now() - elapsed;
+		} else {
+			entry.paused = true;
+			entry.pausedElapsed = elapsed;
+		};
+		await BroadcastManager.#saveEntry(entry);
+		game.socket.emit("module.wfrp4e-tools", {name: "broadcastUpdate", args: [entry, elapsed]});
+		BroadcastManager.updateLocal(entry, elapsed);
+	};
+
+	static async stepCounter(id, delta) {
+		if (!game.user.isGM) {return};
+		let inst = BroadcastManager.#instances.get(id);
+		if (!inst) {return};
+		let entry = foundry.utils.deepClone(inst.entry);
+		let max = Math.max(1, Number(entry.max) || 1);
+		entry.value = Math.min(Math.max((Number(entry.value) || 0) + delta, 0), max);
+		entry.finished = entry.value >= max;
+		await BroadcastManager.#saveEntry(entry);
+		game.socket.emit("module.wfrp4e-tools", {name: "broadcastUpdate", args: [entry, 0]});
+		BroadcastManager.updateLocal(entry, 0);
+	};
+
+	static async stepRounds(id, delta, newRound) {
+		if (!game.user.isGM) {return};
+		let inst = BroadcastManager.#instances.get(id);
+		if (!inst) {return};
+		let entry = foundry.utils.deepClone(inst.entry);
+		entry.value = Math.max(0, (Number(entry.value) || 0) + delta);
+		if (entry.value > entry.max) {entry.max = entry.value};
+		if (typeof newRound === "number") {entry.lastRound = newRound};
+		entry.finished = entry.value <= 0;
+		await BroadcastManager.#saveEntry(entry);
+		game.socket.emit("module.wfrp4e-tools", {name: "broadcastUpdate", args: [entry, 0]});
+		BroadcastManager.updateLocal(entry, 0);
+	};
+
+	static async onCombatRound(round) {
+		if (!game.user.isGM || game.users.activeGM?.id !== game.user.id) {return};
+		for (let [id, inst] of BroadcastManager.#instances.entries()) {
+			if (inst.entry.mode !== "rounds" || inst.entry.finished) {continue};
+			let last = Number(inst.entry.lastRound) || 0;
+			if (round > last) {await BroadcastManager.stepRounds(id, -(round - last), round)}
+			else if (round < last) {
+				inst.entry.lastRound = round;
+				await BroadcastManager.#saveEntry(inst.entry);
+			};
+		};
+	};
+
+	static async dismiss(id) {
+		if (!game.user.isGM) {return};
+		await BroadcastManager.#pruneFromSetting(id);
+		game.socket.emit("module.wfrp4e-tools", {name: "broadcastRemove", args: [id]});
+		BroadcastManager.removeLocal(id);
+	};
+
+	static async dismissAll() {
+		if (!game.user.isGM) {return};
+		let ids = Array.from(BroadcastManager.#instances.keys());
+		await game.settings.set("wfrp4e-tools", "activeBroadcasts", []);
+		for (let id of ids) {
+			game.socket.emit("module.wfrp4e-tools", {name: "broadcastRemove", args: [id]});
+			BroadcastManager.removeLocal(id);
+		};
+	};
+
+	static getActiveList() {
+		let result = [];
+		for (let [id, inst] of BroadcastManager.#instances.entries()) {
+			let elapsed = BroadcastManager.getElapsed(inst.entry, inst.localStart);
+			let view = BroadcastManager.computeView(inst.entry, elapsed);
+			result.push({
+				id,
+				mode: inst.entry.mode,
+				color: inst.entry.color,
+				icon: inst.entry.icon,
+				text: view.displayText,
+				meta: view.meta,
+				paused: Boolean(inst.entry.paused),
+				isTimer: ["countdown", "stopwatch", "percent"].includes(inst.entry.mode) && !view.finished,
+				isSteppable: ["counter", "rounds"].includes(inst.entry.mode)
+			});
+		};
+		return result;
+	};
+
+	static async restoreAll() {
+		let saved = foundry.utils.deepClone(game.settings.get("wfrp4e-tools", "activeBroadcasts") || []);
+		if (!saved.length) {return};
+		let valid = [];
+		for (let entry of saved) {
+			let elapsed = entry.paused ? (Number(entry.pausedElapsed) || 0) : Math.max(0, Date.now() - (Number(entry.startedAt) || Date.now()));
+			let view = BroadcastManager.computeView(entry, elapsed);
+			if (view.finished && (entry.autoRemove || (entry.mode === "message" && Number(entry.duration) > 0))) {continue};
+			valid.push(entry);
+			await BroadcastManager.showLocal(entry, elapsed);
+		};
+		if (game.user.isGM && game.users.activeGM?.id === game.user.id && valid.length !== saved.length) {await game.settings.set("wfrp4e-tools", "activeBroadcasts", valid)};
+	};
+};
+tools.BroadcastManager = BroadcastManager;
+//Окно отправки сообщений и таймеров игрокам (только для Мастера)
+class BroadcastApp extends HandlebarsApplicationMixin(ApplicationV2) {
+	static DEFAULT_OPTIONS = {
+		classes: ["wfrp4eTools-broadcast", "wfrp4eTools", "warhammer"],
+		window: {
+			icon: "fas fa-bullhorn",
+			title: "WFRP4E.Tools.Broadcast.Title",
+			resizable: true,
+			contentClasses: ["standard-form"]
+		},
+		actions: {
+			send: this._onSend,
+			togglePause: this._onTogglePause,
+			stepMinus: this._onStepMinus,
+			stepPlus: this._onStepPlus,
+			dismissOne: this._onDismissOne,
+			dismissAll: this._onDismissAll
+		}
+	};
+
+	static PARTS = {
+		form: {
+			template: "modules/wfrp4e-tools/templates/broadcast/form.hbs"
+		},
+		active: {
+			template: "modules/wfrp4e-tools/templates/broadcast/active.hbs"
+		}
+	};
+
+	#metaInterval = null;
+
+	async _prepareContext(options) {
+		let context = await super._prepareContext(options);
+		context.players = game.users.filter(u => !u.isGM).map(u => ({
+			id: u.id,
+			name: u.name,
+			color: u.color?.css || u.color || "#888888"
+		}));
+		context.active = BroadcastManager.getActiveList();
+		return context;
+	};
+
+	_onRender(context, options) {
+		super._onRender(context, options);
+		let formEl = this.element.querySelector(".broadcast-form");
+		if (formEl && !formEl.dataset.bound) {
+			formEl.dataset.bound = "1";
+			let updateModeVisibility = () => {
+				let mode = formEl.querySelector("input[name='mode']:checked")?.value || "message";
+				formEl.querySelectorAll("[data-modes]").forEach(el => {
+					let modes = el.dataset.modes.split(/\s+/);
+					el.hidden = !modes.includes(mode);
+				});
+				formEl.querySelectorAll("[data-modes-only]").forEach(el => {
+					let modes = el.dataset.modesOnly.split(/\s+/);
+					el.hidden = !modes.includes(mode);
+				});
+			};
+			formEl.querySelectorAll("input[name='mode']").forEach(r => r.addEventListener("change", updateModeVisibility));
+			updateModeVisibility();
+		};
+		if (!this.#metaInterval) {
+			this.#metaInterval = setInterval(() => {
+				if (!this.element?.isConnected) {return};
+				let list = BroadcastManager.getActiveList();
+				for (let item of list) {
+					let metaEl = this.element.querySelector(`.broadcast-active-item[data-id="${item.id}"] .active-meta`);
+					if (metaEl && metaEl.textContent !== item.meta) {metaEl.textContent = item.meta};
+				};
+			}, 500);
+		};
+	};
+
+	async close(options) {
+		if (this.#metaInterval) {
+			clearInterval(this.#metaInterval);
+			this.#metaInterval = null;
+		};
+		return super.close(options);
+	};
+
+	static async create() {
+		if (!game.user.isGM) {return};
+		let existing = Array.from(foundry.applications.instances.values()).find(a => a instanceof BroadcastApp);
+		if (existing) {
+			existing.bringToFront?.();
+			return existing;
+		};
+		let app = new this();
+		await app.render({force: true});
+		return app;
+	};
+
+	static async _onSend() {
+		let formEl = this.element.querySelector(".broadcast-form");
+		if (!formEl) {return};
+		let mode = formEl.querySelector("input[name='mode']:checked")?.value || "message";
+		let text = formEl.querySelector("textarea[name='text']")?.value?.trim() || "";
+		let finishText = formEl.querySelector("input[name='finishText']")?.value?.trim() || "";
+		let color = formEl.querySelector("input[name='color']:checked")?.value || "blue";
+		let icon = formEl.querySelector("select[name='icon']")?.value || "";
+		let autoRemove = Boolean(formEl.querySelector("input[name='autoRemove']")?.checked);
+		let showBar = Boolean(formEl.querySelector("input[name='showBar']")?.checked);
+		let reverse = formEl.querySelector("select[name='reverse']")?.value === "1";
+		let duration = 0;
+		let value = 0;
+		let max = 1;
+		let step = 1;
+		let displayFormat = "fraction";
+
+		if (mode === "message") {
+			let sec = Math.max(0, Number(formEl.querySelector("input[name='msgDuration']")?.value) || 0);
+			duration = sec * 1000;
+		} else if (["countdown", "stopwatch", "percent"].includes(mode)) {
+			let mins = Math.max(0, Number(formEl.querySelector("input[name='minutes']")?.value) || 0);
+			let secs = Math.max(0, Number(formEl.querySelector("input[name='seconds']")?.value) || 0);
+			duration = (mins * 60 + secs) * 1000;
+			if ((mode === "countdown" || mode === "percent") && duration <= 0) {
+				game.wfrp4e.tools.newNotification({text: game.i18n.localize("WFRP4E.Tools.Broadcast.Dialog.DurationRequired")}, {color: "red"});
+				return;
+			};
+		} else if (mode === "counter") {
+			max = Math.max(1, Number(formEl.querySelector("input[name='counterMax']")?.value) || 6);
+			value = Math.min(Math.max(0, Number(formEl.querySelector("input[name='counterValue']")?.value) || 0), max);
+			step = Math.max(1, Number(formEl.querySelector("input[name='counterStep']")?.value) || 1);
+			displayFormat = formEl.querySelector("select[name='displayFormat']")?.value || "fraction";
+		} else if (mode === "rounds") {
+			let count = Math.max(1, Number(formEl.querySelector("input[name='roundsCount']")?.value) || 3);
+			value = count;
+			max = count;
+		};
+		let playerInputs = Array.from(formEl.querySelectorAll("input[name='recipient']"));
+		let checkedPlayers = playerInputs.filter(i => i.checked).map(i => i.value);
+		//Если выбраны все игроки (или игроков нет) — пустой массив (= все пользователи)
+		let recipients = (playerInputs.length && checkedPlayers.length < playerInputs.length) ? checkedPlayers : [];
+		if (playerInputs.length && !checkedPlayers.length) {
+			game.wfrp4e.tools.newNotification({text: game.i18n.localize("WFRP4E.Tools.Broadcast.Dialog.RecipientsRequired")}, {color: "red"});
+			return;
+		};
+		await BroadcastManager.send({mode, text, finishText, icon, color, recipients, duration, showBar, reverse, autoRemove, value, max, step, displayFormat});
+	};
+
+	static async _onTogglePause(event, button) {
+		await BroadcastManager.togglePause(button.dataset.id);
+	};
+
+	static async _onStepMinus(event, button) {
+		let item = BroadcastManager.getActiveList().find(b => b.id === button.dataset.id);
+		if (!item) {return};
+		if (item.mode === "counter") {
+			let saved = (game.settings.get("wfrp4e-tools", "activeBroadcasts") || []).find(b => b.id === item.id);
+			await BroadcastManager.stepCounter(item.id, -(Number(saved?.step) || 1));
+		} else if (item.mode === "rounds") {await BroadcastManager.stepRounds(item.id, -1)};
+	};
+
+	static async _onStepPlus(event, button) {
+		let item = BroadcastManager.getActiveList().find(b => b.id === button.dataset.id);
+		if (!item) {return};
+		if (item.mode === "counter") {
+			let saved = (game.settings.get("wfrp4e-tools", "activeBroadcasts") || []).find(b => b.id === item.id);
+			await BroadcastManager.stepCounter(item.id, Number(saved?.step) || 1);
+		} else if (item.mode === "rounds") {await BroadcastManager.stepRounds(item.id, 1)};
+	};
+
+	static async _onDismissOne(event, button) {
+		await BroadcastManager.dismiss(button.dataset.id);
+	};
+
+	static async _onDismissAll() {
+		await BroadcastManager.dismissAll();
+	};
+};
+tools.BroadcastApp = BroadcastApp;
 //Журнал изменений
 class AuditLogs extends HandlebarsApplicationMixin(ApplicationV2) {
 	static DEFAULT_OPTIONS = {
@@ -744,8 +1371,11 @@ class AuditLogs extends HandlebarsApplicationMixin(ApplicationV2) {
 					};
 					case ("update"): {
 						l.action = game.i18n.localize("WFRP4E.Tools.AuditLogs.Action.Update");
-						if (l.changed?.oldValue > l.changed?.value) {l.changed.increase = true};
-						l.changed.path = AuditLogs.pathToString(l.changed.path);
+						let rawPath = l.changed?.path;
+						if (typeof l.changed?.oldValue === "number" && typeof l.changed?.value === "number" && l.changed.oldValue > l.changed.value) {l.changed.increase = true};
+						l.changed.oldValue = AuditLogs.formatValue(l.changed?.oldValue, rawPath);
+						l.changed.value = AuditLogs.formatValue(l.changed?.value, rawPath);
+						l.changed.path = AuditLogs.pathToString(rawPath);
 						break;
 					};
 					case ("delete"): {
@@ -839,7 +1469,10 @@ class AuditLogs extends HandlebarsApplicationMixin(ApplicationV2) {
 		if (data.action == "update") {
 			data.action = "resetUpdate";
 			let changed = foundry.utils.deepClone(data.changed);
-			changed.path = AuditLogs.pathToString(changed.path);
+			let rawResetPath = changed.path;
+			changed.oldValue = AuditLogs.formatValue(changed.oldValue, rawResetPath);
+			changed.value = AuditLogs.formatValue(changed.value, rawResetPath);
+			changed.path = AuditLogs.pathToString(rawResetPath);
 			data.target = {changed: [changed]};
 			let target;
 			if (data.item?.uuid) {
@@ -945,6 +1578,28 @@ class AuditLogs extends HandlebarsApplicationMixin(ApplicationV2) {
 		game.users.forEach(u => this.users.push({name: u.name, character: u.character, id: u.id, log: u.flags.wfrp4eTools?.auditLogs || []}));
 		this.tabGroups.primary = activeTab;
 		this.render();
+	};
+	/**
+	 * Преобразует значение изменённого параметра в читаемую строку (в том числе массивы объектов качеств/изъянов).
+	 */
+	static formatValue(val, path = "") {
+		if (val === null || val === undefined || val === "") {return "-"};
+		if (typeof val === "boolean") {return val ? "+" : "-"};
+		if (Array.isArray(val)) {
+			if (!val.length) {return "-"};
+			let propDict = {};
+			if (path?.includes("qualities")) {propDict = game.wfrp4e?.utility?.qualityList?.() || {}}
+			else if (path?.includes("flaws")) {propDict = game.wfrp4e?.utility?.flawList?.() || {}};
+			return val.map(entry => {
+				if (entry && typeof entry === "object") {
+					let label = propDict[entry.name] || entry.label || entry.name || JSON.stringify(entry);
+					return entry.value != null && entry.value !== "" ? `${label} (${entry.value})` : label;
+				};
+				return propDict[entry] || String(entry);
+			}).join(", ");
+		};
+		if (typeof val === "object") {return val.label || val.name || JSON.stringify(val)};
+		return val;
 	};
 	/**
 	 * Преобразует путь до изменённого параметра в строку, описывающую этот параметр.
@@ -1267,7 +1922,10 @@ function updateAuditLogs(rawLog, user) {
 				logs.push({action: entry.action, target, timer: entry.time});
 			} else if (entry.action == "update" && entry.changed) {
 				let changedCopy = foundry.utils.deepClone(entry.changed);
-				changedCopy.path = AuditLogs.pathToString(changedCopy.path);
+				let rawPath = changedCopy.path;
+				changedCopy.oldValue = AuditLogs.formatValue(changedCopy.oldValue, rawPath);
+				changedCopy.value = AuditLogs.formatValue(changedCopy.value, rawPath);
+				changedCopy.path = AuditLogs.pathToString(rawPath);
 				let cLog = logs.filter(l => l.action == "update").find(l =>
 					(!l.target.item && !entry.item && l.target.actor?.uuid == entry.actor?.uuid) ||
 					(l.target?.item?.uuid && l.target.item.uuid == entry?.item?.uuid && l.target.actor?.uuid == entry.actor?.uuid)
@@ -1351,60 +2009,89 @@ async function recordAuditLog(log, user, mergeUpdate = false) {
 	game.socket.emit("module.wfrp4e-tools", {name: "updateAuditLogs", args: [socketLog, user]});
 	updateAuditLogs(socketLog, user);
 };
+//Локальный кеш до изменения (раздельно по UUID, чтобы пакетные обновления вроде монет не перезатирали друг друга)
+const auditOldDataCache = new Map();
+function pushAuditOldData(uuid, snapshot) {
+	if (!uuid) {return};
+	let queue = auditOldDataCache.get(uuid);
+	if (!queue) {
+		queue = [];
+		auditOldDataCache.set(uuid, queue);
+	};
+	queue.push(snapshot);
+	if (queue.length > 20) {queue.shift()};
+};
+function shiftAuditOldData(uuid) {
+	let queue = auditOldDataCache.get(uuid);
+	if (!queue?.length) {return null};
+	let snapshot = queue.shift();
+	if (!queue.length) {auditOldDataCache.delete(uuid)};
+	return snapshot;
+};
 //Считывание изменений. Подготовка к Изменению актёра
 Hooks.on("preUpdateActor", (actor, args, options, user) => {
-	if (user == game.user.id) {options.oldData = actor.toObject()};
+	if (user == game.user.id && !options.onReset) {pushAuditOldData(actor.uuid, actor.toObject())};
 });
 //Считывание изменений. Изменение актёра
 Hooks.on("updateActor", async (actor, args, options, user) => {
-	if (user == game.user.id && !options.onReset) {
-		let sourceChanged = options.changed || args;
-		let keys = game.wfrp4e.tools.getNestedKeys(args).filter(k => !k.startsWith("_stats") && k !== "_id");
-		if (keys.length !== 1) {return};
-		let path = game.wfrp4e.tools.getNestedKeys(sourceChanged).filter(k => !k.startsWith("_stats") && k !== "_id")[0] || keys[0];
-		if (!path || path.includes("sort") || path.includes("flags")) {return};
-		let parts = path.replace(/\["|'|\\"/g, ".").replace(/"\]|'\]|\\"\]/g, "").split(".");
-		let log = {
-			actor: {uuid: actor.uuid, name: actor.name},
-			action: "update",
-			changed: {
-				path,
-				value: parts.reduce((acc, part) => acc?.[part], sourceChanged),
-				oldValue: parts.reduce((acc, part) => acc?.[part], options.oldData)
-			},
-			time: options.modifiedTime || Date.now()
-		};
-		await recordAuditLog(log, user, true);
+	if (user != game.user.id) {return};
+	let oldData = shiftAuditOldData(actor.uuid);
+	if (options.onReset) {return};
+	let keys = game.wfrp4e.tools.getNestedKeys(args).filter(k => !k.startsWith("_stats") && k !== "_id");
+	if (keys.length !== 1) {return};
+	let path = keys[0];
+	if (!path || path.includes("sort") || path.includes("flags")) {return};
+	let parts = path.replace(/\["|'|\\"/g, ".").replace(/"\]|'\]|\\"\]/g, "").split(".").filter(Boolean);
+	let newData = actor.toObject();
+	let newValue = parts.reduce((acc, part) => acc?.[part], newData);
+	if (newValue === undefined) {newValue = parts.reduce((acc, part) => acc?.[part], args)};
+	let oldValue = parts.reduce((acc, part) => acc?.[part], oldData);
+	if (JSON.stringify(newValue) === JSON.stringify(oldValue)) {return};
+	let log = {
+		actor: {uuid: actor.uuid, name: actor.name},
+		action: "update",
+		changed: {
+			path,
+			value: newValue,
+			oldValue
+		},
+		time: options.modifiedTime || Date.now()
 	};
+	await recordAuditLog(log, user, true);
 });
 //Считывание изменений. Подготовка к Изменению предмета
 Hooks.on("preUpdateItem", (item, args, options, user) => {
-	if (user == game.user.id) {options.oldData = item.toObject()};
+	if (user == game.user.id && !options.onReset) {pushAuditOldData(item.uuid, item.toObject())};
 });
 //Считывание изменений. Изменение предмета
 Hooks.on("updateItem", async (item, args, options, user) => {
-	if (user == game.user.id && !options.onReset) {
-		let sourceChanged = options.changed || args;
-		let keys = game.wfrp4e.tools.getNestedKeys(args).filter(k => !k.startsWith("_stats") && k !== "_id");
-		if (keys.length !== 1) {return};
-		let path = game.wfrp4e.tools.getNestedKeys(sourceChanged).filter(k => !k.startsWith("_stats") && k !== "_id")[0] || keys[0];
-		if (!path || path.includes("sort") || path.includes("flags")) {return};
-		let parts = path.replace(/\["|'|\\"/g, ".").replace(/"\]|'\]|\\"\]/g, "").split(".");
-		let log = {
-			item: {uuid: item.uuid, name: item.name},
-			action: "update",
-			changed: {
-				path,
-				value: parts.reduce((acc, part) => acc?.[part], sourceChanged),
-				oldValue: parts.reduce((acc, part) => acc?.[part], options.oldData)
-			},
-			time: options.modifiedTime || Date.now()
-		};
-		if (item.parent) {
-			log.actor = {uuid: item.parent.uuid, name: item.parent.name};
-		};
-		await recordAuditLog(log, user, true);
+	if (user != game.user.id) {return};
+	let oldData = shiftAuditOldData(item.uuid);
+	if (options.onReset) {return};
+	let keys = game.wfrp4e.tools.getNestedKeys(args).filter(k => !k.startsWith("_stats") && k !== "_id");
+	if (keys.length !== 1) {return};
+	let path = keys[0];
+	if (!path || path.includes("sort") || path.includes("flags")) {return};
+	let parts = path.replace(/\["|'|\\"/g, ".").replace(/"\]|'\]|\\"\]/g, "").split(".").filter(Boolean);
+	let newData = item.toObject();
+	let newValue = parts.reduce((acc, part) => acc?.[part], newData);
+	if (newValue === undefined) {newValue = parts.reduce((acc, part) => acc?.[part], args)};
+	let oldValue = parts.reduce((acc, part) => acc?.[part], oldData);
+	if (JSON.stringify(newValue) === JSON.stringify(oldValue)) {return};
+	let log = {
+		item: {uuid: item.uuid, name: item.name},
+		action: "update",
+		changed: {
+			path,
+			value: newValue,
+			oldValue
+		},
+		time: options.modifiedTime || Date.now()
 	};
+	if (item.parent) {
+		log.actor = {uuid: item.parent.uuid, name: item.parent.name};
+	};
+	await recordAuditLog(log, user, true);
 });
 //Считывание изменений. Удаление актёра
 Hooks.on("deleteActor", async (actor, options, user) => {
@@ -1638,7 +2325,8 @@ async function updateAmbitionsSummary(uuid) {
 Hooks.on("updateActor", async (actor, args, options, user) => {
 	//Если обновление вызвано этим же пользователем, цель обновления - персонаж, обновлены были параметры, связанные с амбициями или имя персонажа
 	//Эта проверка нужна потому что при изменении любого актёра любым пользователем остальные пользователи так же перехватывают хук "updateActor"
-	if (user == game.user.id && actor.type == "character" && (options.changed?.name || options.changed?.system?.details?.experience || options.changed?.system?.details?.["party-ambitions"] || options.changed?.system?.details?.["personal-ambitions"])) {
+	let ch = options.changed || args;
+	if (user == game.user.id && actor.type == "character" && (ch?.name || ch?.system?.details?.experience || ch?.system?.details?.["party-ambitions"] || ch?.system?.details?.["personal-ambitions"])) {
 		game.socket.emit("module.wfrp4e-tools", {name: "updateAmbitionsSummary", args: [actor.uuid]});
 		updateAmbitionsSummary(actor.uuid);
 	};
@@ -3454,6 +4142,9 @@ Hooks.on("updateCombat", (combat, changed) => {
 	if (game.user.isGM && changed.round && changed.round > 1) {
 		Audio.playContextAudio({category: "combat", keys: ["round_start", "round"], global: true});
 	};
+	if (Object.hasOwn(changed, "round") && typeof changed.round === "number") {
+		BroadcastManager.onCombatRound(changed.round);
+	};
 });
 //Уход в защиту
 Hooks.on("createActiveEffect", (effect, options, userId) => {
@@ -3534,22 +4225,23 @@ async function resolveSocket(func) {
 			updateRollStats(...args);
 			return;
 		};
-	};
-	//Проверка на другие мои модули для вызова их сокет-функций
-	for (let m of nPocTo_Modules) {
-		if (game.modules.get(m)?.active && game.settings.settings.has(`${m}.socketData`)) {
-			let data = game.settings.get(m, "socketData");
-			let handler = Array.isArray(data)
-				? data.find(h => h?.name === func.name)?.func
-				: data?.[func.name];
-			if (!handler) {continue};
-			if (typeof handler === "function") {
-				await handler(...args);
-			} else if (typeof handler === "string") {
-				let asyncFunction = Object.getPrototypeOf(async function(){}).constructor;
-				await (new asyncFunction("...args", handler))(...args);
-			};
+		case "broadcastShow": {
+			BroadcastManager.showLocal(...args);
+			return;
 		};
+		case "broadcastUpdate": {
+			BroadcastManager.updateLocal(...args);
+			return;
+		};
+		case "broadcastRemove": {
+			BroadcastManager.removeLocal(...args);
+			return;
+		};
+	};
+	//Проверка зарегистрированных runtime-обработчиков сокетов
+	if (typeof nPocTo_Sockets[func.name] === "function") {
+		await nPocTo_Sockets[func.name](...args);
+		return;
 	};
 };
 //Фикс отображения случайных изображений токенов (*) и рендера карточек при удалённом токене/актёре
@@ -3697,6 +4389,12 @@ Hooks.once("init", () => {
 		config: false,
 		default: {short: "", long: ""},
 		type: Object
+	});
+	game.settings.register("wfrp4e-tools", "activeBroadcasts", {
+		scope: "world",
+		config: false,
+		default: [],
+		type: Array
 	});
 	game.settings.register("wfrp4e-tools", "soundsCatalog", {
 		scope: "world",
@@ -3880,6 +4578,8 @@ Hooks.on("ready", async () => {
 	};
 	//Создание сокета модуля для возможности вызова функций у других пользователей
 	game.socket.on('module.wfrp4e-tools', resolveSocket);
+	//Восстановление активных сообщений и таймеров Мастера
+	await BroadcastManager.restoreAll();
 	//Запуск хука о готовности модуля
 	Hooks.callAll("wfrp4e:toolsReady");
 });
@@ -3975,6 +4675,14 @@ Hooks.on("getSceneControlButtons", (controls) => {
 				visible: true,
 				button: true,
 				onChange: () => {game.wfrp4e.tools.RollStatsApp.create()}
+			},
+			broadcast: {
+				name: "broadcast",
+				title: "WFRP4E.Tools.Broadcast.Title",
+				icon: "fas fa-bullhorn",
+				visible: game.user.isGM,
+				button: true,
+				onChange: () => {game.wfrp4e.tools.BroadcastApp.create()}
 			},
 			macros: {
 				name: "macros",

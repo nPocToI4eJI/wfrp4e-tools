@@ -1,0 +1,31 @@
+<div class="broadcast-active">
+	{{#if active.length}}
+	<div class="broadcast-active-header">
+		<h5>{{localize 'WFRP4E.Tools.Broadcast.Active.Title'}} ({{active.length}})</h5>
+		{{#if (gt active.length 1)}}
+		<a class="button" data-action="dismissAll" data-tooltip="{{localize 'WFRP4E.Tools.Broadcast.Active.DismissAll'}}"><i class="fas fa-trash"></i> {{localize 'WFRP4E.Tools.Broadcast.Active.DismissAll'}}</a>
+		{{/if}}
+	</div>
+	<ul class="broadcast-active-list">
+		{{#each active}}
+		<li class="broadcast-active-item {{this.color}}" data-id="{{this.id}}">
+			<div class="active-info">
+				{{#if this.icon}}<i class="{{this.icon}}"></i>{{/if}}
+				<span class="active-text">{{this.text}}</span>
+				{{#if this.meta}}<span class="active-meta">{{this.meta}}</span>{{/if}}
+			</div>
+			<div class="active-controls">
+				{{#if this.isTimer}}
+				<a class="button" data-action="togglePause" data-id="{{this.id}}" data-tooltip="{{#if this.paused}}{{localize 'WFRP4E.Tools.Broadcast.Active.Resume'}}{{else}}{{localize 'WFRP4E.Tools.Broadcast.Active.Pause'}}{{/if}}"><i class="fas {{#if this.paused}}fa-play{{else}}fa-pause{{/if}}"></i></a>
+				{{/if}}
+				{{#if this.isSteppable}}
+				<a class="button" data-action="stepMinus" data-id="{{this.id}}" data-tooltip="-"><i class="fas fa-minus"></i></a>
+				<a class="button" data-action="stepPlus" data-id="{{this.id}}" data-tooltip="+"><i class="fas fa-plus"></i></a>
+				{{/if}}
+				<a class="button" data-action="dismissOne" data-id="{{this.id}}" data-tooltip="{{localize 'WFRP4E.Tools.Broadcast.Active.Dismiss'}}"><i class="fas fa-xmark"></i></a>
+			</div>
+		</li>
+		{{/each}}
+	</ul>
+	{{/if}}
+</div>

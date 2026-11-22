@@ -97,7 +97,7 @@
 			"Personal": "personal",
 			"Party": "party",
 			"Reason": "{type} {class} ambition",
-			"Notify": "{actors} {action} {type} {class} амбиция!"
+			"Notify": "{actors} {action} {type} {class} ambition!"
 		},
 		"RollStats": {
 			"Title": "Roll Statistics",
@@ -473,6 +473,95 @@
 			"soundsPath": {
 				"Name": "Path to sounds folder",
 				"Hint": "Path to the root directory of the module's sound effects."
+			}
+		},
+		"Broadcast": {
+			"Title": "Broadcast Message",
+			"RoundsShort": "{count} r.",
+			"Hint": {
+				"Player": "GM message.",
+				"GMDismiss": "RMB: dismiss for everyone.",
+				"GMTimer": "LMB: pause / resume.",
+				"GMCounter": "LMB: +step | Shift + LMB: -step.",
+				"GMRounds": "LMB: -1 round | Shift + LMB: +1 round.",
+				"Recipients": "Recipients: {list}"
+			},
+			"Dialog": {
+				"Text": "Message text",
+				"TextPlaceholder": "Enter the message players will see...",
+				"Mode": {
+					"Label": "Mode",
+					"Message": "Message",
+					"MessageHint": "Plain message. Can stay permanent (0 sec) or auto-hide after a set duration.",
+					"Countdown": "Countdown",
+					"CountdownHint": "Countdown timer with a progress bar.",
+					"Stopwatch": "Stopwatch",
+					"StopwatchHint": "Count-up timer (with an optional time limit).",
+					"Percent": "Percentage",
+					"PercentHint": "Smooth percentage progress bar (0% → 100% or 100% → 0%) over a set duration.",
+					"Counter": "Counter / Clock",
+					"CounterHint": "Manual progress bar. Controlled by the GM.",
+					"Rounds": "Combat Rounds",
+					"RoundsHint": "Automatic countdown linked to the active combat round tracker."
+				},
+				"Color": {
+					"Label": "Color",
+					"Blue": "Blue",
+					"Green": "Green",
+					"Orange": "Orange",
+					"Red": "Red",
+					"Purple": "Purple",
+					"Black": "Black"
+				},
+				"Icon": {
+					"Label": "Icon",
+					"None": "No icon",
+					"Bullhorn": "Announcement",
+					"Warning": "Warning",
+					"Hourglass": "Hourglass",
+					"Skull": "Skull",
+					"Fire": "Fire",
+					"Magic": "Magic",
+					"Combat": "Combat",
+					"Crown": "Crown",
+					"Bell": "Bell"
+				},
+				"Duration": "Auto-hide delay (sec.)",
+				"DurationHint": "0 — stays on screen until dismissed by the GM (RMB).",
+				"DurationRequired": "Specify a duration greater than 0 seconds.",
+				"ShowBar": "Fade bar",
+				"ShowBarHint": "Display a draining progress bar until the message disappears.",
+				"Minutes": "Minutes",
+				"Seconds": "Seconds",
+				"StopwatchLimitHint": "Leave at 0 min. 0 sec. to run the stopwatch without a limit.",
+				"Direction": {
+					"Label": "Direction",
+					"Up": "0% → 100%",
+					"Down": "100% → 0%"
+				},
+				"CounterStart": "Start",
+				"CounterMax": "Maximum",
+				"CounterStep": "Step",
+				"CounterFormat": {
+					"Label": "Display",
+					"Fraction": "Value / Max",
+					"Percent": "Percent (%)"
+				},
+				"RoundsCount": "Number of rounds",
+				"FinishText": "Completion text (optional)",
+				"FinishTextPlaceholder": "E.g.: Time is up!",
+				"AutoRemove": "Hide when finished",
+				"Recipients": "Recipients",
+				"RecipientsHint": "Select which players will see this message. The GM always sees it.",
+				"RecipientsRequired": "Select at least one recipient.",
+				"Send": "Send"
+			},
+			"Active": {
+				"Title": "Active messages",
+				"Pause": "Pause",
+				"Resume": "Resume",
+				"Dismiss": "Dismiss for all",
+				"DismissAll": "Dismiss all"
 			}
 		},
 		"Control": "Additional tools",
