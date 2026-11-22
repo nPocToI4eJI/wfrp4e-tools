@@ -31,6 +31,7 @@
   - [Статистика бросков](#ru-roll-stats)
   - [Журнал изменений](#ru-audit-logs)
   - [Сводка по Амбициям](#ru-ambitions)
+  - [Вывод сообщения](#ru-broadcast)
   - [Менеджер макросов](#ru-macros)
 - [Звуковая система](#ru-audio)
 - [Исправления и улучшения системы](#ru-fixes)
@@ -100,6 +101,32 @@
 <summary>📷 Скриншоты</summary>
 
 ![Сводка по Амбициям](https://github.com/user-attachments/assets/7df88173-617f-4469-b158-52415b79546e)
+
+</details>
+
+---
+
+<a id="ru-broadcast"></a>
+#### 📢 Вывод сообщения *(только для Мастера)*
+Инструмент для отправки синхронизированных объявлений, таймеров и шкал прогресса в область уведомлений на экранах игроков.
+
+* **6 режимов работы:**
+  * *Сообщение* - постоянное объявление или сообщение с заданным временем исчезновения и убывающей полосой.
+  * *Таймер назад* - обратный отсчёт со шкалой прогресса.
+  * *Таймер вперёд* - секундомер с опциональным лимитом времени.
+  * *Проценты* - плавная шкала за указанное время.
+  * *Счётчик / Шкала* - ручная шкала прогресса с настройкой старта, максимума, шага и формата (`2 / 6` или `%`).
+  * *Раунды боя* - обратный отсчёт, автоматически уменьшающийся при смене раунда текущего боя.
+* **Гибкая настройка:** выбор из 6 цветов, иконки, текста по завершении, авто-скрытия и фильтра конкретных игроков-получателей.
+* **Контроль Мастера:** игроки не могут закрыть сообщение или поставить таймер на паузу. Мастер управляет уведомлениями прямо на экране (*ПКМ* - убрать у всех, *ЛКМ* - пауза/продолжить для таймеров или шаг *+ / -* через *ЛКМ / Shift + ЛКМ* для счётчиков и раундов) или из списка активных сообщений в окне инструмента.
+* **Надёжная синхронизация:** активные сообщения и таймеры сохраняются в мире и корректно восстанавливаются после перезагрузки страницы.
+
+<details align="center">
+<summary>📷 Скриншоты</summary>
+
+![Вывод сообщения](https://github.com/user-attachments/assets/0711a24c-d439-4209-9d0c-67b79b4e598b)
+
+![Пример уведомлений](https://github.com/user-attachments/assets/0d7b2de9-e233-435e-8b82-203714a1c389)
 
 </details>
 
@@ -227,6 +254,7 @@
   - [Roll Statistics](#en-roll-stats)
   - [Changelog](#en-audit-logs)
   - [Ambitions Summary](#en-ambitions)
+  - [Broadcast Message](#en-broadcast)
   - [Macro Manager](#en-macros)
 - [Audio System](#en-audio)
 - [System Fixes & Improvements](#en-fixes)
@@ -296,6 +324,32 @@ A single window for managing Short Term and Long Term ambitions for both the par
 <summary>📷 Screenshots</summary>
 
 ![Ambitions Summary](https://github.com/user-attachments/assets/7df88173-617f-4469-b158-52415b79546e)
+
+</details>
+
+---
+
+<a id="en-broadcast"></a>
+#### 📢 Broadcast Message *(GM Only)*
+A tool for sending synchronized announcements, timers, and progress bars to the notification area on players' screens.
+
+* **6 Modes:**
+  * *Message* - permanent announcement or timed message with an optional draining fade bar.
+  * *Countdown* - countdown timer with a progress bar.
+  * *Stopwatch* - count-up timer with an optional time limit.
+  * *Percentage* - smooth percentage progress bar over a set duration.
+  * *Counter / Clock* - manual progress bar with configurable start, max, step, and display format (`2 / 6` or `%`).
+  * *Combat Rounds* - countdown automatically linked to the active combat round tracker.
+* **Customization:** choose from 6 colors, an icon, optional completion text, auto-hide behavior, and specific player recipients.
+* **GM-Only Control:** players cannot dismiss the message or pause timers. The GM controls active notifications directly on screen (*RMB* - dismiss for everyone, *LMB* - pause/resume timers, *LMB / Shift + LMB* - step counters and rounds) or from the active messages list inside the tool window.
+* **Persistent Sync:** active messages and timers are stored in world settings and automatically restored after a page reload.
+
+<details align="center">
+<summary>📷 Screenshots</summary>
+
+![Broadcast Message window](https://github.com/user-attachments/assets/0711a24c-d439-4209-9d0c-67b79b4e598b)
+
+![Notifications](https://github.com/user-attachments/assets/0d7b2de9-e233-435e-8b82-203714a1c389)
 
 </details>
 
