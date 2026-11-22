@@ -2,12 +2,13 @@ let tools = {};
 let debugMessage = ["%cWFRP4e Tools %c[debug]%c.", "font-weight: bold;", "color: orange;", ""];
 let nPocTo_Modules = [];
 let nPocTo_Sockets = {};
+let nPocTo_Debug = new Map();
 let controlsRefreshScheduled = false;
 tools.modules = nPocTo_Modules;
 /**
  * Регистрирует сторонний или сопутствующий модуль для интеграции с WFRP4e - Tools (Меню отладки, Макросы, Сокеты, Кнопки панели управления).
  * @param {string} moduleId Идентификатор модуля из module.json.
- * @param {Object} [config] Необязательные обработчики (например, {sockets: {name: fn}}).
+ * @param {Object} [config] Необязательные обработчики ({sockets: {name: fn}, debug: [{form, values, listener}]}).
  */
 tools.registerModule = (moduleId, config = {}) => {
 	if (!moduleId || typeof moduleId !== "string") {return};
@@ -26,6 +27,9 @@ tools.registerModule = (moduleId, config = {}) => {
 			if (typeof fn === "function") {nPocTo_Sockets[name] = fn};
 		};
 	};
+	if (Array.isArray(config?.debug)) {
+		nPocTo_Debug.set(moduleId, config.debug);
+	};
 };
 tools.registerSocket = (name, fn) => {
 	if (name && typeof fn === "function") {nPocTo_Sockets[name] = fn};
@@ -37,7 +41,12 @@ class debugMenu extends HandlebarsApplicationMixin(ApplicationV2) {
 		window: {
 			icon: "fas fa-debug",
 			title: "WFRP4E.Tools.Debug.Name",
-			resizable: true,
+			resizable: true
+		},
+		actions: {
+			debugMode: this._onToggleDebug,
+			rebuildSounds: this._onRebuildSounds,
+			rebuildRollStats: this._onRebuildRollStats
 		}
 	};
 
@@ -66,14 +75,14 @@ class debugMenu extends HandlebarsApplicationMixin(ApplicationV2) {
 	};
 
 	constructor(options) {
-		//Проверка на другие мои модули для добавления параметров отладки оттуда
+		//Сбор секций отладки от зарегистрированных модулей
 		let modules = [];
 		nPocTo_Modules.forEach(m => {
-			if (game.modules.get(m)?.active && game.settings.settings.has(`${m}.debugData`)) {
+			if (game.modules.get(m)?.active && nPocTo_Debug.has(m)) {
 				modules.push({
 					id: m,
 					title: game.modules.get(m).title,
-					data: game.settings.get(m, "debugData")
+					data: nPocTo_Debug.get(m)
 				});
 			};
 		});
@@ -105,36 +114,49 @@ class debugMenu extends HandlebarsApplicationMixin(ApplicationV2) {
 		return super.render(options, _options);
 	};
 
-	//Добавление взаимодействия при нажатии на кнопки
 	_onRender(context, options) {
-		//Переключение режима отладки
-		this.element.querySelector("a.button[data-action=\"debugMode\"]")?.addEventListener("click", () => {this.updateDebug()});
-		//Переиндексация каталога звуков
-		this.element.querySelector("a.button[data-action=\"rebuildSounds\"]")?.addEventListener("click", async () => {
-			await Audio.buildCatalog();
-			game.wfrp4e.tools.newNotification({text: game.i18n.localize("WFRP4E.Tools.Debug.Dialog.Sounds.Updated")}, {color: "green"});
-		});
-		//Обновление статистики бросков из чата
-		this.element.querySelector("a.button[data-action=\"rebuildRollStats\"]")?.addEventListener("click", async () => {
-			let result = await RollStats.rebuildFromChat();
-			if (result) {
-				game.wfrp4e.tools.newNotification({text: game.i18n.format("WFRP4E.Tools.Debug.Dialog.RollStats.Updated", result)}, {color: "green"});
-			};
-		});
+		super._onRender(context, options);
 		//Изменение длины лога
-		this.element.querySelector("input.length")?.addEventListener("change", async (e) => {
-			let val = Math.max(1, Math.trunc(Number(e.target.value)) || 50);
-			e.target.value = val;
-			await game.settings.set("wfrp4e-tools", "auditLogsLength", val);
-			context.auditLogsLength = val;
-			game.wfrp4e.tools.newNotification({text: game.i18n.localize("WFRP4E.Tools.Debug.Dialog.AuditLogsLength.Notify")}, {color: "green"});
-		});
-		//Взаимодействия из других моих модулей
+		let lengthInput = this.element.querySelector("input.length");
+		if (lengthInput && !lengthInput.dataset.debugBound) {
+			lengthInput.dataset.debugBound = "1";
+			lengthInput.addEventListener("change", async (e) => {
+				let val = Math.max(1, Math.trunc(Number(e.target.value)) || 50);
+				e.target.value = val;
+				await game.settings.set("wfrp4e-tools", "auditLogsLength", val);
+				context.auditLogsLength = val;
+				game.wfrp4e.tools.newNotification({text: game.i18n.localize("WFRP4E.Tools.Debug.Dialog.AuditLogsLength.Notify")}, {color: "green"});
+			});
+		};
+		//Взаимодействия из других модулей
 		this.modules.map(m => m.data).flat().forEach(m => {
-			if (m.listener) {
-				this.element.querySelector(m.listener.selector)?.addEventListener(m.listener.action, m.listener.func);
+			if (m.listener?.selector && typeof m.listener.func === "function") {
+				this.element.querySelectorAll(m.listener.selector).forEach(el => {
+					if (el.dataset.debugBound) {return};
+					el.dataset.debugBound = "1";
+					el.addEventListener(m.listener.action || "click", async (e) => {
+						e.preventDefault();
+						await m.listener.func(e, this);
+					});
+				});
 			};
 		});
+	};
+
+	static async _onToggleDebug() {
+		await this.updateDebug();
+	};
+
+	static async _onRebuildSounds() {
+		await Audio.buildCatalog();
+		game.wfrp4e.tools.newNotification({text: game.i18n.localize("WFRP4E.Tools.Debug.Dialog.Sounds.Updated")}, {color: "green"});
+	};
+
+	static async _onRebuildRollStats() {
+		let result = await RollStats.rebuildFromChat();
+		if (result) {
+			game.wfrp4e.tools.newNotification({text: game.i18n.format("WFRP4E.Tools.Debug.Dialog.RollStats.Updated", result)}, {color: "green"});
+		};
 	};
 
 	//Обновление статуса отладки
@@ -145,8 +167,11 @@ class debugMenu extends HandlebarsApplicationMixin(ApplicationV2) {
 		console.debug(...debugMessage, "debug updateDebug \"this.debug\"");
 		console.debug(this.debug);
 		//Обновление отображения надписи
-		this.element.querySelector("span#debugMode").textContent = this.debug ? game.i18n.localize("WFRP4E.Tools.Debug.Dialog.Mode.On") : game.i18n.localize("WFRP4E.Tools.Debug.Dialog.Mode.Off");
-		this.element.querySelector("span#debugMode").style.color = this.debug ? "green" : "red";
+		let labelEl = this.element.querySelector("span#debugMode");
+		if (labelEl) {
+			labelEl.textContent = this.debug ? game.i18n.localize("WFRP4E.Tools.Debug.Dialog.Mode.On") : game.i18n.localize("WFRP4E.Tools.Debug.Dialog.Mode.Off");
+			labelEl.style.color = this.debug ? "green" : "red";
+		};
 	};
 };
 //Набор утилит модуля
